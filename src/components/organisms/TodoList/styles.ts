@@ -1,0 +1,68 @@
+import { css } from '@emotion/react';
+
+export const styles = {
+  title: css`
+    font-size: 3rem;
+    color: #9acd32;
+  `,
+  container: css`
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+  `,
+  register: css`
+    background-color: #00ffff;
+  `,
+  button: css`
+    padding: 5px;
+  `,
+  listWrapper: css`
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    padding: 10px;
+    background-color: #333;
+    color: #fff;
+  `,
+  list: css`
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    font-size: 1.4rem;
+  `,
+  listBorder: css`
+    border-bottom: 1px solid #fff;
+  `,
+  item: css`
+    width: 200px;
+  `,
+  itemHeader: css`
+    display: flex;
+    justify-content: center;
+  `,
+  action: css`
+    flex: 1;
+  `,
+  text: css`
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  `,
+  delete: css`
+    background-color: #ff0000;
+  `,
+  edit: css`
+    background-color: #6495ed;
+  `,
+  editBox: css`
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  `,
+  listItem: css`
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  `,
+};
