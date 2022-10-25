@@ -1,11 +1,12 @@
 import { isTypedArray } from 'util/types';
 import React, { MutableRefObject, useCallback, useEffect, useRef, useState } from 'react';
+import supabase from '../../../../utils/supabase';
 import { getToday } from '../../../libs/dayjs';
 
 export type Item = {
-  id: string;
-  time: string;
+  id: number;
   value: string;
+  time: string;
 };
 
 export type Hooks = {
@@ -13,7 +14,7 @@ export type Hooks = {
   handleChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   list: Item[];
   handleClick: (value: string) => void;
-  handleDelete: (id: string) => void;
+  handleDelete: (id: number) => void;
   inputRef: MutableRefObject<HTMLInputElement | null>;
   editInputRef: MutableRefObject<HTMLInputElement | null>;
   handleOpen: (item: Item) => void;
@@ -31,7 +32,7 @@ export const useHooks = (): Hooks => {
   const [list, setList] = useState<Item[]>([]);
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [edit, setEdit] = useState<Item>({
-    id: '',
+    id: 0,
     time: '',
     value: '',
   });
@@ -42,19 +43,21 @@ export const useHooks = (): Hooks => {
     setValue(e.target.value);
   }, []);
 
+  const fetchTodo = useCallback(async () => {
+    const datas = (await supabase.from('todos').select('*')).data;
+    if (!datas) return;
+    setList(datas);
+  }, []);
+
   const handleClick = useCallback(
-    (value: string) => {
+    async (value: string) => {
       if (value === '') return;
-      const item = {
-        id: String(list.length + 1),
-        value: value,
-        time: getToday(),
-      };
-      setList((prev) => [...prev, item]);
+      await supabase.from('todos').insert({ value, time: getToday() });
+      fetchTodo();
       setValue('');
       inputRef.current?.focus();
     },
-    [list],
+    [fetchTodo],
   );
 
   const handleEditChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
@@ -72,25 +75,31 @@ export const useHooks = (): Hooks => {
   }, []);
 
   const handleEdit = useCallback(
-    (item: Item) => {
+    async (item: Item) => {
       if (editValue.length === 0) return;
-      const result = [
-        ...list.map((item1) => (item1.id === item.id ? { ...item1, value: editValue } : item1)),
-      ];
-      setList(result);
+      await supabase.from('todos').update({ value: editValue }).eq('id', item.id);
+      fetchTodo();
       handleClose();
     },
-    [editValue, handleClose, list],
+    [editValue, fetchTodo, handleClose],
   );
 
-  const handleDelete = useCallback((id: string) => {
-    setList((prev) => [...prev.filter((item) => item.id !== id)]);
-  }, []);
+  const handleDelete = useCallback(
+    async (id: number) => {
+      await supabase.from('todos').delete().eq('id', id);
+      fetchTodo();
+    },
+    [fetchTodo],
+  );
 
   useEffect(() => {
     if (!isOpen) return;
     editInputRef.current?.focus();
   }, [isOpen]);
+
+  useEffect(() => {
+    fetchTodo();
+  }, [fetchTodo]);
 
   return {
     edit,
