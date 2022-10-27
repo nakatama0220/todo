@@ -59,6 +59,9 @@ export const TodoList: FC = () => {
                   onClick={() => handleOpen(item)}>
                   編集
                 </button>
+                <button type="button" css={[styles.button, styles.delete]} onClick={() => {}}>
+                  完了
+                </button>
               </li>
             ))}
           </ul>
