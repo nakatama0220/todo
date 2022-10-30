@@ -10,7 +10,7 @@ export const styles = {
     flex-direction: column;
     background-color: #f1ebd7;
     gap: 30px;
-    min-width: 1200px;
+    min-width: 1350px;
   `,
   title: css`
     font-size: 3rem;
