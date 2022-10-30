@@ -1,4 +1,5 @@
 import type { FC } from 'react';
+import { changeTime } from '../../../libs/dayjs';
 import { Input } from '../../atoms/Input';
 import { SelectBox } from '../../atoms/SelectBox';
 import { useHooks } from './hooks';
@@ -51,7 +52,7 @@ export const TodoList: FC = () => {
               {list.map((item) => (
                 <li css={styles.list} key={item.id}>
                   <div css={[styles.text, styles.item]}>{item.value}</div>
-                  <div css={[styles.text, styles.item]}>{item.time}</div>
+                  <div css={[styles.text, styles.item]}>{changeTime(item.time)}</div>
                   <div css={styles.buttonWrapper}>
                     <button
                       type="button"
@@ -88,7 +89,7 @@ export const TodoList: FC = () => {
               {completeList.map((item) => (
                 <li css={styles.list} key={item.id}>
                   <div css={[styles.text, styles.item]}>{item.value}</div>
-                  <div css={[styles.text, styles.item]}>{item.time}</div>
+                  <div css={[styles.text, styles.item]}>{changeTime(item.time)}</div>
                   <div css={styles.buttonWrapper}>
                     <button
                       type="button"
