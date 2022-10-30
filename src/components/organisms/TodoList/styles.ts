@@ -73,4 +73,8 @@ export const styles = {
     gap: 10px;
     flex: 1;
   `,
+  input: css`
+    padding: 5px;
+    background: #d2d2d2;
+  `,
 };

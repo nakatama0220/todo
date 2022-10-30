@@ -1,5 +1,5 @@
 import type { FC } from 'react';
-import { changeTime } from '../../../libs/dayjs';
+import { changeTime, getToday } from '../../../libs/dayjs';
 import { Input } from '../../atoms/Input';
 import { SelectBox } from '../../atoms/SelectBox';
 import { useHooks } from './hooks';
@@ -25,6 +25,8 @@ export const TodoList: FC = () => {
     completeList,
     handleCompleteDelete,
     handleReset,
+    handleChangeTime,
+    scheduledTime,
   } = useHooks();
 
   return (
@@ -33,6 +35,13 @@ export const TodoList: FC = () => {
       <SelectBox selectMenu="todo" />
       <form>
         <Input placeholder="New Todo" value={value} onChange={handleChange} ref={inputRef} />
+        <input
+          css={styles.input}
+          onChange={handleChangeTime}
+          type="date"
+          value={scheduledTime}
+          min={getToday('YYYY-MM-DD')}
+        />
         <button
           type="button"
           css={[styles.button, styles.register]}
@@ -46,6 +55,7 @@ export const TodoList: FC = () => {
             <ul css={[styles.list, styles.listBorder]}>
               <li css={styles.item}>TODO</li>
               <li css={styles.item}>登録日</li>
+              <li css={styles.item}>予定日</li>
               <li css={styles.action}>アクション</li>
             </ul>
             <ul css={styles.listItem}>
@@ -53,6 +63,7 @@ export const TodoList: FC = () => {
                 <li css={styles.list} key={item.id}>
                   <div css={styles.item}>{item.value}</div>
                   <div css={styles.item}>{changeTime(item.time)}</div>
+                  <div css={styles.item}>{changeTime(item.scheduledTime)}</div>
                   <div css={styles.buttonWrapper}>
                     <button
                       type="button"
