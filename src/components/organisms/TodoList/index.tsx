@@ -44,15 +44,15 @@ export const TodoList: FC = () => {
         {list.length > 0 && (
           <div css={styles.listWrapper}>
             <ul css={[styles.list, styles.listBorder]}>
-              <li css={[styles.item, styles.itemHeader]}>TODO</li>
-              <li css={[styles.item, styles.itemHeader]}>登録日</li>
-              <li css={[styles.action, styles.itemHeader]}>アクション</li>
+              <li css={styles.item}>TODO</li>
+              <li css={styles.item}>登録日</li>
+              <li css={styles.action}>アクション</li>
             </ul>
             <ul css={styles.listItem}>
               {list.map((item) => (
                 <li css={styles.list} key={item.id}>
-                  <div css={[styles.text, styles.item]}>{item.value}</div>
-                  <div css={[styles.text, styles.item]}>{changeTime(item.time)}</div>
+                  <div css={styles.item}>{item.value}</div>
+                  <div css={styles.item}>{changeTime(item.time)}</div>
                   <div css={styles.buttonWrapper}>
                     <button
                       type="button"
@@ -81,15 +81,15 @@ export const TodoList: FC = () => {
         {completeList.length > 0 && (
           <div css={styles.listWrapper}>
             <ul css={[styles.list, styles.listBorder]}>
-              <li css={[styles.item, styles.itemHeader]}>完了したTODO</li>
-              <li css={[styles.item, styles.itemHeader]}>完了日</li>
-              <li css={[styles.action, styles.itemHeader]}>アクション</li>
+              <li css={styles.item}>完了したTODO</li>
+              <li css={styles.item}>完了日</li>
+              <li css={styles.action}>アクション</li>
             </ul>
             <ul css={styles.listItem}>
               {completeList.map((item) => (
                 <li css={styles.list} key={item.id}>
-                  <div css={[styles.text, styles.item]}>{item.value}</div>
-                  <div css={[styles.text, styles.item]}>{changeTime(item.time)}</div>
+                  <div css={styles.item}>{item.value}</div>
+                  <div css={styles.item}>{changeTime(item.time)}</div>
                   <div css={styles.buttonWrapper}>
                     <button
                       type="button"
