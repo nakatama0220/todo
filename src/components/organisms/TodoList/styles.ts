@@ -65,4 +65,15 @@ export const styles = {
     flex-direction: column;
     gap: 10px;
   `,
+  body: css`
+    display: flex;
+    gap: 10px;
+  `,
+  buttonWrapper: css`
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    flex: 1;
+  `,
 };
