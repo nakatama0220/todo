@@ -24,12 +24,17 @@ export type Hooks = {
   handleEdit: (item: Item) => void;
   handleEditChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   editValue: string;
+  handleComplete: (item: Item) => void;
+  completeList: Item[];
+  handleCompleteDelete: (id: number) => void;
+  handleReset: (item: Item) => void;
 };
 
 export const useHooks = (): Hooks => {
   const [value, setValue] = useState<string>('');
   const [editValue, setEditValue] = useState<string>('');
   const [list, setList] = useState<Item[]>([]);
+  const [completeList, setCompleteList] = useState<Item[]>([]);
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [edit, setEdit] = useState<Item>({
     id: 0,
@@ -47,6 +52,12 @@ export const useHooks = (): Hooks => {
     const datas = (await supabase.from('todos').select('*')).data;
     if (!datas) return;
     setList(datas);
+  }, []);
+
+  const fetchCompleteList = useCallback(async () => {
+    const datas = (await supabase.from('complete').select('*')).data;
+    if (!datas) return;
+    setCompleteList(datas);
   }, []);
 
   const handleClick = useCallback(
@@ -92,6 +103,33 @@ export const useHooks = (): Hooks => {
     [fetchTodo],
   );
 
+  const handleComplete = useCallback(
+    async (item: Item) => {
+      await supabase.from('complete').insert({ value: item.value, time: getToday() });
+      handleDelete(item.id);
+      fetchCompleteList();
+    },
+    [fetchCompleteList, handleDelete],
+  );
+
+  const handleCompleteDelete = useCallback(
+    async (id: number) => {
+      await supabase.from('complete').delete().eq('id', id);
+      fetchCompleteList();
+    },
+    [fetchCompleteList],
+  );
+
+  const handleReset = useCallback(
+    async (item: Item) => {
+      await supabase.from('complete').delete().eq('id', item.id);
+      fetchCompleteList();
+      await supabase.from('todos').insert({ value: item.value, time: getToday() });
+      fetchTodo();
+    },
+    [fetchCompleteList, fetchTodo],
+  );
+
   useEffect(() => {
     if (!isOpen) return;
     editInputRef.current?.focus();
@@ -99,7 +137,8 @@ export const useHooks = (): Hooks => {
 
   useEffect(() => {
     fetchTodo();
-  }, [fetchTodo]);
+    fetchCompleteList();
+  }, [fetchCompleteList, fetchTodo]);
 
   return {
     edit,
@@ -116,5 +155,9 @@ export const useHooks = (): Hooks => {
     isOpen,
     list,
     value,
+    handleComplete,
+    completeList,
+    handleCompleteDelete,
+    handleReset,
   };
 };
