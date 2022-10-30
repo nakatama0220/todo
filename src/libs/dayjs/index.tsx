@@ -1,7 +1,7 @@
 import dayjs from 'dayjs';
 
-export const getToday = (): string => {
-  return dayjs().format('YYYY-MM-DDTHH:mm');
+export const getToday = (format: string): string => {
+  return dayjs().format(format);
 };
 
 export const changeTime = (time: string): string => {

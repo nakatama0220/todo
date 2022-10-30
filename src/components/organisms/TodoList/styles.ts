@@ -24,6 +24,7 @@ export const styles = {
     padding: 10px;
     background-color: #333;
     color: #fff;
+    height: 100%;
   `,
   list: css`
     display: flex;
@@ -35,19 +36,13 @@ export const styles = {
     border-bottom: 1px solid #fff;
   `,
   item: css`
-    width: 200px;
-  `,
-  itemHeader: css`
     display: flex;
     justify-content: center;
+    width: 200px;
+    word-break: break-all;
   `,
   action: css`
     flex: 1;
-  `,
-  text: css`
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
   `,
   delete: css`
     background-color: #ff0000;
@@ -64,6 +59,8 @@ export const styles = {
     display: flex;
     flex-direction: column;
     gap: 10px;
+    max-height: 650px;
+    overflow-y: auto;
   `,
   body: css`
     display: flex;
@@ -75,5 +72,9 @@ export const styles = {
     align-items: center;
     gap: 10px;
     flex: 1;
+  `,
+  input: css`
+    padding: 5px;
+    background: #d2d2d2;
   `,
 };

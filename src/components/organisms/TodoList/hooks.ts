@@ -1,12 +1,18 @@
-import { isTypedArray } from 'util/types';
 import React, { MutableRefObject, useCallback, useEffect, useRef, useState } from 'react';
 import supabase from '../../../../utils/supabase';
 import { getToday } from '../../../libs/dayjs';
+
+export type CompleteItem = {
+  id: number;
+  value: string;
+  time: string;
+};
 
 export type Item = {
   id: number;
   value: string;
   time: string;
+  scheduledTime: string;
 };
 
 export type Hooks = {
@@ -25,24 +31,28 @@ export type Hooks = {
   handleEditChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   editValue: string;
   handleComplete: (item: Item) => void;
-  completeList: Item[];
+  completeList: CompleteItem[];
   handleCompleteDelete: (id: number) => void;
-  handleReset: (item: Item) => void;
+  handleReset: (item: CompleteItem) => void;
+  handleChangeTime: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  scheduledTime: string;
 };
 
 export const useHooks = (): Hooks => {
   const [value, setValue] = useState<string>('');
   const [editValue, setEditValue] = useState<string>('');
   const [list, setList] = useState<Item[]>([]);
-  const [completeList, setCompleteList] = useState<Item[]>([]);
+  const [completeList, setCompleteList] = useState<CompleteItem[]>([]);
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [edit, setEdit] = useState<Item>({
     id: 0,
     time: '',
     value: '',
+    scheduledTime: '',
   });
   const inputRef = useRef<HTMLInputElement | null>(null);
   const editInputRef = useRef<HTMLInputElement | null>(null);
+  const [scheduledTime, setScheduledTime] = useState<string>('');
 
   const handleChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
     setValue(e.target.value);
@@ -62,13 +72,18 @@ export const useHooks = (): Hooks => {
 
   const handleClick = useCallback(
     async (value: string) => {
-      if (value === '') return;
-      await supabase.from('todos').insert({ value, time: getToday() });
+      if (value === '' || scheduledTime === '') return;
+      console.log(scheduledTime);
+
+      await supabase
+        .from('todos')
+        .insert({ value, time: getToday('YYYY-MM-DDTHH:mm'), scheduledTime: scheduledTime });
       fetchTodo();
       setValue('');
+      setScheduledTime('');
       inputRef.current?.focus();
     },
-    [fetchTodo],
+    [fetchTodo, scheduledTime],
   );
 
   const handleEditChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
@@ -105,7 +120,9 @@ export const useHooks = (): Hooks => {
 
   const handleComplete = useCallback(
     async (item: Item) => {
-      await supabase.from('complete').insert({ value: item.value, time: getToday() });
+      await supabase
+        .from('complete')
+        .insert({ value: item.value, time: getToday('YYYY-MM-DDTHH:mm') });
       handleDelete(item.id);
       fetchCompleteList();
     },
@@ -120,11 +137,17 @@ export const useHooks = (): Hooks => {
     [fetchCompleteList],
   );
 
+  const handleChangeTime = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+    setScheduledTime(e.target.value);
+  }, []);
+
   const handleReset = useCallback(
-    async (item: Item) => {
+    async (item: CompleteItem) => {
       await supabase.from('complete').delete().eq('id', item.id);
       fetchCompleteList();
-      await supabase.from('todos').insert({ value: item.value, time: getToday() });
+      await supabase
+        .from('todos')
+        .insert({ value: item.value, time: getToday('YYYY-MM-DDTHH:mm') });
       fetchTodo();
     },
     [fetchCompleteList, fetchTodo],
@@ -159,5 +182,7 @@ export const useHooks = (): Hooks => {
     completeList,
     handleCompleteDelete,
     handleReset,
+    handleChangeTime,
+    scheduledTime,
   };
 };
