@@ -77,4 +77,11 @@ export const styles = {
     padding: 5px;
     background: #d2d2d2;
   `,
+  titleWrapper: css`
+    display: flex;
+    gap: 20px;
+  `,
+  topPage: css`
+    background-color: #fff;
+  `,
 };

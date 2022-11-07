@@ -1,3 +1,4 @@
+import { useRouter } from 'next/router';
 import React, { MutableRefObject, useCallback, useEffect, useRef, useState } from 'react';
 import supabase from '../../../../utils/supabase';
 import { getToday } from '../../../libs/dayjs';
@@ -36,6 +37,7 @@ export type Hooks = {
   handleReset: (item: CompleteItem) => void;
   handleChangeTime: (e: React.ChangeEvent<HTMLInputElement>) => void;
   scheduledTime: string;
+  handleTopPage: () => void;
 };
 
 export const useHooks = (): Hooks => {
@@ -53,6 +55,7 @@ export const useHooks = (): Hooks => {
   const inputRef = useRef<HTMLInputElement | null>(null);
   const editInputRef = useRef<HTMLInputElement | null>(null);
   const [scheduledTime, setScheduledTime] = useState<string>('');
+  const router = useRouter();
 
   const handleChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
     setValue(e.target.value);
@@ -153,6 +156,10 @@ export const useHooks = (): Hooks => {
     [fetchCompleteList, fetchTodo],
   );
 
+  const handleTopPage = useCallback(() => {
+    router.push('.');
+  }, []);
+
   useEffect(() => {
     if (!isOpen) return;
     editInputRef.current?.focus();
@@ -184,5 +191,6 @@ export const useHooks = (): Hooks => {
     handleReset,
     handleChangeTime,
     scheduledTime,
+    handleTopPage,
   };
 };

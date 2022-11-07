@@ -1,12 +1,22 @@
-import type { NextPage } from 'next';
+import { useSession, useSupabaseClient } from '@supabase/auth-helpers-react';
+import { Auth, ThemeSupa } from '@supabase/auth-ui-react';
 import { Top } from '../src/components/organisms/Top';
 import { Layout } from '../src/components/template/Layout';
 
-const Home: NextPage = () => {
+const Home = () => {
+  const session = useSession();
+  const supabase = useSupabaseClient();
+
   return (
-    <Layout>
-      <Top />
-    </Layout>
+    <>
+      {!session ? (
+        <Auth supabaseClient={supabase} appearance={{ theme: ThemeSupa }} />
+      ) : (
+        <Layout>
+          <Top />
+        </Layout>
+      )}
+    </>
   );
 };
 
