@@ -27,11 +27,17 @@ export const TodoList: FC = () => {
     handleReset,
     handleChangeTime,
     scheduledTime,
+    handleTopPage,
   } = useHooks();
 
   return (
     <div css={styles.container}>
-      <h1 css={styles.title}>TODOリスト</h1>
+      <div css={styles.titleWrapper}>
+        <h1 css={styles.title}>TODOリスト</h1>
+        <button type="button" css={styles.topPage} onClick={handleTopPage}>
+          トップページに戻る
+        </button>
+      </div>
       <SelectBox selectMenu="todo" />
       <form>
         <Input placeholder="New Todo" value={value} onChange={handleChange} ref={inputRef} />
