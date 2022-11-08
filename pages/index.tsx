@@ -12,8 +12,9 @@ const Home = () => {
   return (
     <>
       {!session ? (
-        <Auth supabaseClient={supabase} appearance={{ theme: ThemeSupa }} />
+        <></>
       ) : (
+        // <Auth supabaseClient={supabase} appearance={{ theme: ThemeSupa }} />
         <Layout>
           <Top />
         </Layout>
