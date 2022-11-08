@@ -10,16 +10,18 @@ const Home = () => {
   console.log(session);
 
   return (
-    <>
-      {!session ? (
-        <></>
-      ) : (
-        // <Auth supabaseClient={supabase} appearance={{ theme: ThemeSupa }} />
-        <Layout>
-          <Top />
-        </Layout>
-      )}
-    </>
+    <Layout>
+      <Top />
+    </Layout>
+    // <>
+    //   {!session ? (
+    //     <Auth supabaseClient={supabase} appearance={{ theme: ThemeSupa }} />
+    //   ) : (
+    //     <Layout>
+    //       <Top />
+    //     </Layout>
+    //   )}
+    // </>
   );
 };
 
