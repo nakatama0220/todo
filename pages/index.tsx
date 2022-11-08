@@ -6,8 +6,6 @@ import { Layout } from '../src/components/template/Layout';
 const Home = () => {
   const session = useSession();
   const supabase = useSupabaseClient();
-  console.log(supabase);
-  console.log(session);
 
   return (
     <Layout>

@@ -76,8 +76,6 @@ export const useHooks = (): Hooks => {
   const handleClick = useCallback(
     async (value: string) => {
       if (value === '' || scheduledTime === '') return;
-      console.log(scheduledTime);
-
       await supabase
         .from('todos')
         .insert({ value, time: getToday('YYYY-MM-DDTHH:mm'), scheduledTime: scheduledTime });
