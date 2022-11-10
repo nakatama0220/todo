@@ -8,18 +8,15 @@ const Home = () => {
   const supabase = useSupabaseClient();
 
   return (
-    <Layout>
-      <Top />
-    </Layout>
-    // <>
-    //   {!session ? (
-    //     <Auth supabaseClient={supabase} appearance={{ theme: ThemeSupa }} />
-    //   ) : (
-    //     <Layout>
-    //       <Top />
-    //     </Layout>
-    //   )}
-    // </>
+    <>
+      {!session ? (
+        <Auth supabaseClient={supabase} appearance={{ theme: ThemeSupa }} />
+      ) : (
+        <Layout>
+          <Top />
+        </Layout>
+      )}
+    </>
   );
 };
 
