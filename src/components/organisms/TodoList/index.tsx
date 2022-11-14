@@ -68,8 +68,8 @@ export const TodoList: FC = () => {
               {list.map((item) => (
                 <li css={styles.list} key={item.id}>
                   <div css={styles.item}>{item.value}</div>
-                  <div css={styles.item}>{changeTime(item.time)}</div>
-                  <div css={styles.item}>{changeTime(item.scheduledTime)}</div>
+                  <div css={styles.item}>{changeTime(item.time, 'YYYY年MM月DD日')}</div>
+                  <div css={styles.item}>{changeTime(item.scheduledTime, 'YYYY年MM月DD日')}</div>
                   <div css={styles.buttonWrapper}>
                     <button
                       type="button"
@@ -106,7 +106,7 @@ export const TodoList: FC = () => {
               {completeList.map((item) => (
                 <li css={styles.list} key={item.id}>
                   <div css={styles.item}>{item.value}</div>
-                  <div css={styles.item}>{changeTime(item.time)}</div>
+                  <div css={styles.item}>{changeTime(item.time, 'YYYY年MM月DD日')}</div>
                   <div css={styles.buttonWrapper}>
                     <button
                       type="button"

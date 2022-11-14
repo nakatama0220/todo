@@ -1,7 +1,7 @@
 import { useRouter } from 'next/router';
 import { useState, useCallback, useEffect } from 'react';
 import supabase from '../../../../utils/supabase';
-import { changeTime2 } from '../../../libs/dayjs';
+import { changeTime } from '../../../libs/dayjs';
 
 type Item = {
   id: number;
@@ -24,9 +24,9 @@ export const useHooks = (): Hooks => {
     if (!datas) return;
     const result = datas.map((item) => ({
       id: item.id,
-      attendanceTime: changeTime2(item.attendance_time),
+      attendanceTime: changeTime(item.attendance_time, 'YYYY年MM月DD日HH時mm分'),
       breakingTime: `${item.breaking_time}分`,
-      workedTime: changeTime2(item.worked_time),
+      workedTime: changeTime(item.worked_time, 'YYYY年MM月DD日HH時mm分'),
       totalScore: '',
     }));
     setList(result);
