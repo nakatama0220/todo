@@ -14,30 +14,19 @@ export const styles = {
     display: flex;
     gap: 20px;
   `,
-  button: css`
-    color: red;
-    background-color: white;
+  topPage: css`
+    background-color: #fff;
   `,
-  buttonWrapper: css`
+  header: css`
     display: flex;
-    gap: 15px;
+    padding: 10px 0;
   `,
-  attendanceButton: css`
-    padding: 5px;
-    border-radius: 5px;
+  item: css`
+    width: 220px;
+    display: flex;
+    justify-content: center;
   `,
-  able: css`
-    background-color: #7fff00;
-  `,
-  disabled: css`
-    background-color: #808080;
-  `,
-  enterButton: css`
-    background-color: #ff0000;
-    color: #fff;
-  `,
-  resetButton: css`
-    background-color: #00ffff;
-    color: #fff;
+  list: css`
+    display: flex;
   `,
 };
