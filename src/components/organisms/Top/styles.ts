@@ -18,4 +18,18 @@ export const styles = {
     color: red;
     background-color: white;
   `,
+  buttonWrapper: css`
+    display: flex;
+    gap: 15px;
+  `,
+  attendanceButton: css`
+    padding: 5px;
+    border-radius: 5px;
+  `,
+  able: css`
+    background-color: #7fff00;
+  `,
+  disabled: css`
+    background-color: #808080;
+  `,
 };
