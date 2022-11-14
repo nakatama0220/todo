@@ -19,7 +19,11 @@ export const styles = {
   `,
   header: css`
     display: flex;
-    padding: 10px 0;
+  `,
+  body: css`
+    background-color: #b0e0e6;
+    border-radius: 5px;
+    padding: 15px;
   `,
   item: css`
     width: 220px;
@@ -28,5 +32,16 @@ export const styles = {
   `,
   list: css`
     display: flex;
+    flex-direction: column;
+    gap: 15px;
+  `,
+  listItem: css`
+    display: flex;
+    align-items: center;
+  `,
+  deleteButton: css`
+    background-color: #ff0000;
+    padding: 5px;
+    border-radius: 5px;
   `,
 };

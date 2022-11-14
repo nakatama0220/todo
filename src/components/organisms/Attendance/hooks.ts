@@ -13,6 +13,7 @@ type Item = {
 export type Hooks = {
   handleTopPage: () => void;
   list: Item[];
+  handleDelete: (id: number) => void;
 };
 
 export const useHooks = (): Hooks => {
@@ -36,6 +37,14 @@ export const useHooks = (): Hooks => {
     router.push('.');
   }, [router]);
 
+  const handleDelete = useCallback(
+    async (id: number) => {
+      await supabase.from('attendance').delete().eq('id', id);
+      fetch();
+    },
+    [fetch],
+  );
+
   useEffect(() => {
     fetch();
   }, [fetch]);
@@ -43,5 +52,6 @@ export const useHooks = (): Hooks => {
   return {
     handleTopPage,
     list,
+    handleDelete,
   };
 };

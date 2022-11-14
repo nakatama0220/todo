@@ -4,7 +4,7 @@ import { useHooks } from './hooks';
 import { styles } from './styles';
 
 export const Attendance: FC = () => {
-  const { handleTopPage, list } = useHooks();
+  const { handleTopPage, list, handleDelete } = useHooks();
 
   return (
     <div css={styles.root}>
@@ -15,24 +15,32 @@ export const Attendance: FC = () => {
         </button>
       </div>
       <SelectBox selectMenu="attendance" />
-      <div>
-        <div css={styles.header}>
-          <span css={styles.item}>出勤時間</span>
-          <span css={styles.item}>休憩時間</span>
-          <span css={styles.item}>退勤時間</span>
-          <span css={styles.item}>トータル</span>
+      {list.length > 0 && (
+        <div css={styles.body}>
+          <div css={styles.header}>
+            <span css={styles.item}>出勤時間</span>
+            <span css={styles.item}>休憩時間</span>
+            <span css={styles.item}>退勤時間</span>
+            <span css={styles.item}>トータル</span>
+          </div>
+          <ul css={styles.list}>
+            {list.map((item) => (
+              <li key={item.id} css={styles.listItem}>
+                <span css={styles.item}>{item.attendanceTime}</span>
+                <span css={styles.item}>{item.breakingTime}</span>
+                <span css={styles.item}>{item.workedTime}</span>
+                <span css={styles.item}>{item.totalScore}</span>
+                <button
+                  type="button"
+                  css={styles.deleteButton}
+                  onClick={() => handleDelete(item.id)}>
+                  削除
+                </button>
+              </li>
+            ))}
+          </ul>
         </div>
-        <ul>
-          {list.map((item) => (
-            <li key={item.id} css={styles.list}>
-              <span css={styles.item}>{item.attendanceTime}</span>
-              <span css={styles.item}>{item.breakingTime}</span>
-              <span css={styles.item}>{item.workedTime}</span>
-              <span css={styles.item}>{item.totalScore}</span>
-            </li>
-          ))}
-        </ul>
-      </div>
+      )}
     </div>
   );
 };
