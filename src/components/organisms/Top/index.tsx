@@ -12,6 +12,8 @@ export const Top: FC = () => {
     handleWorkedClick,
     select,
     handleSignOut,
+    handleInsert,
+    handleReset,
   } = useHooks();
 
   return (
@@ -58,6 +60,22 @@ export const Top: FC = () => {
           onClick={handleWorkedClick}
           disabled={select === 'attendance' || select === 'breakingOut' ? false : true}>
           退勤
+        </button>
+        <button
+          type="button"
+          css={[
+            styles.attendanceButton,
+            select === 'worked' ? styles.enterButton : styles.disabled,
+          ]}
+          onClick={handleInsert}
+          disabled={select === 'worked' ? false : true}>
+          決定
+        </button>
+        <button
+          type="button"
+          css={[styles.attendanceButton, styles.resetButton]}
+          onClick={handleReset}>
+          リセット
         </button>
       </div>
     </div>

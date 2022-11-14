@@ -32,4 +32,12 @@ export const styles = {
   disabled: css`
     background-color: #808080;
   `,
+  enterButton: css`
+    background-color: #ff0000;
+    color: #fff;
+  `,
+  resetButton: css`
+    background-color: #00ffff;
+    color: #fff;
+  `,
 };
