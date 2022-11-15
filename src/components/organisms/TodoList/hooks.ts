@@ -38,6 +38,10 @@ export type Hooks = {
   handleChangeTime: (e: React.ChangeEvent<HTMLInputElement>) => void;
   scheduledTime: string;
   handleTopPage: () => void;
+  searchValue: string;
+  searchCompleteValue: string;
+  handleSearch: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  handleCompleteSearch: (e: React.ChangeEvent<HTMLInputElement>) => void;
 };
 
 export const useHooks = (): Hooks => {
@@ -56,6 +60,8 @@ export const useHooks = (): Hooks => {
   const editInputRef = useRef<HTMLInputElement | null>(null);
   const [scheduledTime, setScheduledTime] = useState<string>('');
   const router = useRouter();
+  const [searchValue, setSearchValue] = useState<string>('');
+  const [searchCompleteValue, setSearchCompleteValue] = useState<string>('');
 
   const handleChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
     setValue(e.target.value);
@@ -76,15 +82,43 @@ export const useHooks = (): Hooks => {
   const handleClick = useCallback(
     async (value: string) => {
       if (value === '' || scheduledTime === '') return;
-      await supabase
-        .from('todos')
-        .insert({ value, time: getToday('YYYY-MM-DDTHH:mm'), scheduledTime: scheduledTime });
+      await supabase.from('todos').insert({
+        value,
+        time: getToday('YYYY-MM-DDTHH:mm'),
+        scheduledTime: scheduledTime,
+      });
       fetchTodo();
       setValue('');
       setScheduledTime('');
       inputRef.current?.focus();
     },
     [fetchTodo, scheduledTime],
+  );
+
+  const handleSearch = useCallback(
+    async (e: React.ChangeEvent<HTMLInputElement>) => {
+      setSearchValue(e.target.value);
+      const { data } = await supabase.from('todos').select().textSearch('value', e.target.value);
+      if (!data || data.length === 0) {
+        fetchTodo();
+        return;
+      }
+      setList(data);
+    },
+    [fetchTodo],
+  );
+
+  const handleCompleteSearch = useCallback(
+    async (e: React.ChangeEvent<HTMLInputElement>) => {
+      setSearchCompleteValue(e.target.value);
+      const { data } = await supabase.from('complete').select().textSearch('value', e.target.value);
+      if (!data || data.length === 0) {
+        fetchCompleteList();
+        return;
+      }
+      setCompleteList(data);
+    },
+    [fetchCompleteList],
   );
 
   const handleEditChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
@@ -190,5 +224,9 @@ export const useHooks = (): Hooks => {
     handleChangeTime,
     scheduledTime,
     handleTopPage,
+    handleCompleteSearch,
+    handleSearch,
+    searchCompleteValue,
+    searchValue,
   };
 };
