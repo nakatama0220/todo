@@ -24,7 +24,6 @@ export const styles = {
     padding: 10px;
     background-color: #333;
     color: #fff;
-    height: 100%;
   `,
   list: css`
     display: flex;
@@ -83,5 +82,14 @@ export const styles = {
   `,
   topPage: css`
     background-color: #fff;
+  `,
+  searchWrapper: css`
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  `,
+  inputText: css`
+    padding: 5px;
+    border-radius: 5px;
   `,
 };
