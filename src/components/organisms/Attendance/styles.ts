@@ -15,9 +15,6 @@ export const styles = {
     display: flex;
     gap: 20px;
   `,
-  topPage: css`
-    background-color: #fff;
-  `,
   header: css`
     display: flex;
   `,

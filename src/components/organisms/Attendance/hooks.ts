@@ -12,7 +12,6 @@ type Item = {
   totalScore: string;
 };
 export type Hooks = {
-  handleTopPage: () => void;
   list: Item[];
   handleDelete: (id: number) => void;
   handleSignOut: () => void;
@@ -50,10 +49,6 @@ export const useHooks = (): Hooks => {
     setList(result);
   }, [getTotalScore, supabase]);
 
-  const handleTopPage = useCallback(() => {
-    router.push('.');
-  }, [router]);
-
   const handleDelete = useCallback(
     async (id: number) => {
       await supabase.from('attendance').delete().eq('id', id);
@@ -64,15 +59,14 @@ export const useHooks = (): Hooks => {
 
   const handleSignOut = useCallback(() => {
     supabase.auth.signOut();
-    handleTopPage();
-  }, [supabase.auth, handleTopPage]);
+    router.push('.');
+  }, [supabase.auth, router]);
 
   useEffect(() => {
     fetch();
   }, [fetch]);
 
   return {
-    handleTopPage,
     list,
     handleDelete,
     handleSignOut,

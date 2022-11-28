@@ -40,7 +40,6 @@ export type Hooks = {
   handleReset: (item: CompleteItem) => void;
   handleChangeTime: (e: React.ChangeEvent<HTMLInputElement>) => void;
   scheduledTime: string;
-  handleTopPage: () => void;
   searchValue: string;
   searchCompleteValue: string;
   handleSearch: (e: React.ChangeEvent<HTMLInputElement>) => void;
@@ -201,14 +200,10 @@ export const useHooks = (): Hooks => {
     [fetchCompleteList, fetchTodo, supabase, userId],
   );
 
-  const handleTopPage = useCallback(() => {
-    router.push('.');
-  }, [router]);
-
   const handleSignOut = useCallback(() => {
     supabase.auth.signOut();
-    handleTopPage();
-  }, [supabase.auth, handleTopPage]);
+    router.push('.');
+  }, [supabase.auth, router]);
 
   useEffect(() => {
     if (!isOpen) return;
@@ -241,7 +236,6 @@ export const useHooks = (): Hooks => {
     handleReset,
     handleChangeTime,
     scheduledTime,
-    handleTopPage,
     handleCompleteSearch,
     handleSearch,
     searchCompleteValue,
