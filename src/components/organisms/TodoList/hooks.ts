@@ -2,6 +2,7 @@ import { useSupabaseClient } from '@supabase/auth-helpers-react';
 import { useRouter } from 'next/router';
 import React, { MutableRefObject, useCallback, useEffect, useRef, useState } from 'react';
 import { getToday } from '../../../libs/dayjs';
+import { useUserId } from '../../../libs/hooks/useUserId';
 
 export type CompleteItem = {
   id: number;
@@ -63,6 +64,7 @@ export const useHooks = (): Hooks => {
   const [searchValue, setSearchValue] = useState<string>('');
   const [searchCompleteValue, setSearchCompleteValue] = useState<string>('');
   const supabase = useSupabaseClient();
+  const { userId } = useUserId();
 
   const handleChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
     setValue(e.target.value);
@@ -87,13 +89,14 @@ export const useHooks = (): Hooks => {
         value,
         time: getToday('YYYY-MM-DDTHH:mm'),
         scheduledTime: scheduledTime,
+        userid: userId,
       });
       fetchTodo();
       setValue('');
       setScheduledTime('');
       inputRef.current?.focus();
     },
-    [fetchTodo, scheduledTime, supabase],
+    [fetchTodo, scheduledTime, supabase, userId],
   );
 
   const handleSearch = useCallback(
@@ -158,11 +161,11 @@ export const useHooks = (): Hooks => {
     async (item: Item) => {
       await supabase
         .from('complete')
-        .insert({ value: item.value, time: getToday('YYYY-MM-DDTHH:mm') });
+        .insert({ value: item.value, time: getToday('YYYY-MM-DDTHH:mm'), userid: userId });
       handleDelete(item.id);
       fetchCompleteList();
     },
-    [fetchCompleteList, handleDelete, supabase],
+    [fetchCompleteList, handleDelete, supabase, userId],
   );
 
   const handleCompleteDelete = useCallback(
