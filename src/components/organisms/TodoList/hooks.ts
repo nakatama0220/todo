@@ -1,6 +1,8 @@
 import { useSupabaseClient } from '@supabase/auth-helpers-react';
+import { useAtom } from 'jotai';
 import { useRouter } from 'next/router';
 import React, { MutableRefObject, useCallback, useEffect, useRef, useState } from 'react';
+import { selectAttendance, Select } from '../../../jotai/selectAttendance';
 import { getToday } from '../../../libs/dayjs';
 import { useUserId } from '../../../libs/hooks/useUserId';
 
@@ -43,6 +45,8 @@ export type Hooks = {
   searchCompleteValue: string;
   handleSearch: (e: React.ChangeEvent<HTMLInputElement>) => void;
   handleCompleteSearch: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  handleSignOut: () => void;
+  select: Select | null;
 };
 
 export const useHooks = (): Hooks => {
@@ -65,6 +69,7 @@ export const useHooks = (): Hooks => {
   const [searchCompleteValue, setSearchCompleteValue] = useState<string>('');
   const supabase = useSupabaseClient();
   const { userId } = useUserId();
+  const [select, setSelect] = useAtom(selectAttendance);
 
   const handleChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
     setValue(e.target.value);
@@ -200,6 +205,11 @@ export const useHooks = (): Hooks => {
     router.push('.');
   }, [router]);
 
+  const handleSignOut = useCallback(() => {
+    supabase.auth.signOut();
+    handleTopPage();
+  }, [supabase.auth, handleTopPage]);
+
   useEffect(() => {
     if (!isOpen) return;
     editInputRef.current?.focus();
@@ -236,5 +246,7 @@ export const useHooks = (): Hooks => {
     handleSearch,
     searchCompleteValue,
     searchValue,
+    handleSignOut,
+    select,
   };
 };

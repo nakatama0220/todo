@@ -92,4 +92,8 @@ export const styles = {
     padding: 5px;
     border-radius: 5px;
   `,
+  logout: css`
+    color: red;
+    background-color: white;
+  `,
 };

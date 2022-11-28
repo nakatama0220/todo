@@ -32,6 +32,7 @@ export const TodoList: FC = () => {
     handleSearch,
     searchCompleteValue,
     searchValue,
+    handleSignOut,
   } = useHooks();
 
   return (
@@ -40,6 +41,9 @@ export const TodoList: FC = () => {
         <h1 css={styles.title}>TODOリスト</h1>
         <button type="button" css={styles.topPage} onClick={handleTopPage}>
           トップページに戻る
+        </button>
+        <button css={[styles.button, styles.logout]} type="button" onClick={handleSignOut}>
+          ログアウト
         </button>
       </div>
       <SelectBox selectMenu="todo" />
