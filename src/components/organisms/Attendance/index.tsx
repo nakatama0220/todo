@@ -1,5 +1,6 @@
 import type { FC } from 'react';
 import { SelectBox } from '../../atoms/SelectBox';
+import { AttendanceButtonWrapper } from '../../molecules/AttendanceButtonWrapper';
 import { useHooks } from './hooks';
 import { styles } from './styles';
 
@@ -15,6 +16,7 @@ export const Attendance: FC = () => {
         </button>
       </div>
       <SelectBox selectMenu="attendance" />
+      <AttendanceButtonWrapper />
       {list.length > 0 && (
         <div css={styles.body}>
           <div css={styles.header}>

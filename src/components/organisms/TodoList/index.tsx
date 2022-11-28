@@ -2,6 +2,7 @@ import type { FC } from 'react';
 import { changeTime, getToday } from '../../../libs/dayjs';
 import { Input } from '../../atoms/Input';
 import { SelectBox } from '../../atoms/SelectBox';
+import { AttendanceButtonWrapper } from '../../molecules/AttendanceButtonWrapper';
 import { useHooks } from './hooks';
 import { styles } from './styles';
 
@@ -47,6 +48,7 @@ export const TodoList: FC = () => {
         </button>
       </div>
       <SelectBox selectMenu="todo" />
+      <AttendanceButtonWrapper />
       <form>
         <Input placeholder="New Todo" value={value} onChange={handleChange} ref={inputRef} />
         <input
