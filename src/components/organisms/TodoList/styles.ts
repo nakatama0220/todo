@@ -58,7 +58,7 @@ export const styles = {
     display: flex;
     flex-direction: column;
     gap: 10px;
-    max-height: 650px;
+    max-height: 45vh;
     overflow-y: auto;
   `,
   body: css`
