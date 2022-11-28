@@ -1,20 +1,23 @@
 import type { FC } from 'react';
+import { LogoutButton } from '../../atoms/LogoutButton';
 import { SelectBox } from '../../atoms/SelectBox';
+import { TopPageButton } from '../../atoms/TopPageButton';
+import { AttendanceButtonWrapper } from '../../molecules/AttendanceButtonWrapper';
 import { useHooks } from './hooks';
 import { styles } from './styles';
 
 export const Attendance: FC = () => {
-  const { handleTopPage, list, handleDelete } = useHooks();
+  const { list, handleDelete } = useHooks();
 
   return (
     <div css={styles.root}>
       <div css={styles.wrapper}>
         <h1 css={styles.title}>勤怠リスト</h1>
-        <button type="button" css={styles.topPage} onClick={handleTopPage}>
-          トップページに戻る
-        </button>
+        <TopPageButton />
+        <LogoutButton />
       </div>
       <SelectBox selectMenu="attendance" />
+      <AttendanceButtonWrapper />
       {list.length > 0 && (
         <div css={styles.body}>
           <div css={styles.header}>

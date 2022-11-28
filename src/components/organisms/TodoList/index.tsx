@@ -1,7 +1,10 @@
 import type { FC } from 'react';
 import { changeTime, getToday } from '../../../libs/dayjs';
 import { Input } from '../../atoms/Input';
+import { LogoutButton } from '../../atoms/LogoutButton';
 import { SelectBox } from '../../atoms/SelectBox';
+import { TopPageButton } from '../../atoms/TopPageButton';
+import { AttendanceButtonWrapper } from '../../molecules/AttendanceButtonWrapper';
 import { useHooks } from './hooks';
 import { styles } from './styles';
 
@@ -27,7 +30,6 @@ export const TodoList: FC = () => {
     handleReset,
     handleChangeTime,
     scheduledTime,
-    handleTopPage,
     handleCompleteSearch,
     handleSearch,
     searchCompleteValue,
@@ -38,11 +40,11 @@ export const TodoList: FC = () => {
     <div css={styles.container}>
       <div css={styles.titleWrapper}>
         <h1 css={styles.title}>TODOリスト</h1>
-        <button type="button" css={styles.topPage} onClick={handleTopPage}>
-          トップページに戻る
-        </button>
+        <TopPageButton />
+        <LogoutButton />
       </div>
       <SelectBox selectMenu="todo" />
+      <AttendanceButtonWrapper />
       <form>
         <Input placeholder="New Todo" value={value} onChange={handleChange} ref={inputRef} />
         <input

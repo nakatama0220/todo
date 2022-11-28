@@ -80,9 +80,6 @@ export const styles = {
     display: flex;
     gap: 20px;
   `,
-  topPage: css`
-    background-color: #fff;
-  `,
   searchWrapper: css`
     display: flex;
     flex-direction: column;

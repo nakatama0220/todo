@@ -5,6 +5,7 @@ export const styles = {
     display: flex;
     flex-direction: column;
     gap: 20px;
+    align-items: center;
   `,
   title: css`
     font-size: 3rem;
@@ -13,9 +14,6 @@ export const styles = {
   wrapper: css`
     display: flex;
     gap: 20px;
-  `,
-  topPage: css`
-    background-color: #fff;
   `,
   header: css`
     display: flex;

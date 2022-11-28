@@ -1,6 +1,7 @@
 import { useSupabaseClient } from '@supabase/auth-helpers-react';
-import { useRouter } from 'next/router';
+import { useAtom } from 'jotai';
 import React, { MutableRefObject, useCallback, useEffect, useRef, useState } from 'react';
+import { selectAttendance, Select } from '../../../jotai/selectAttendance';
 import { getToday } from '../../../libs/dayjs';
 import { useUserId } from '../../../libs/hooks/useUserId';
 
@@ -38,11 +39,11 @@ export type Hooks = {
   handleReset: (item: CompleteItem) => void;
   handleChangeTime: (e: React.ChangeEvent<HTMLInputElement>) => void;
   scheduledTime: string;
-  handleTopPage: () => void;
   searchValue: string;
   searchCompleteValue: string;
   handleSearch: (e: React.ChangeEvent<HTMLInputElement>) => void;
   handleCompleteSearch: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  select: Select | null;
 };
 
 export const useHooks = (): Hooks => {
@@ -60,11 +61,11 @@ export const useHooks = (): Hooks => {
   const inputRef = useRef<HTMLInputElement | null>(null);
   const editInputRef = useRef<HTMLInputElement | null>(null);
   const [scheduledTime, setScheduledTime] = useState<string>('');
-  const router = useRouter();
   const [searchValue, setSearchValue] = useState<string>('');
   const [searchCompleteValue, setSearchCompleteValue] = useState<string>('');
   const supabase = useSupabaseClient();
   const { userId } = useUserId();
+  const [select, setSelect] = useAtom(selectAttendance);
 
   const handleChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
     setValue(e.target.value);
@@ -184,17 +185,17 @@ export const useHooks = (): Hooks => {
     async (item: CompleteItem) => {
       await supabase.from('complete').delete().eq('id', item.id);
       fetchCompleteList();
-      await supabase
-        .from('todos')
-        .insert({ value: item.value, time: getToday('YYYY-MM-DDTHH:mm') });
+      // TODO: scheduleTime調整
+      await supabase.from('todos').insert({
+        value: item.value,
+        time: getToday('YYYY-MM-DDTHH:mm'),
+        scheduledTime: getToday('YYYY-MM-DDTHH:mm'),
+        userid: userId,
+      });
       fetchTodo();
     },
-    [fetchCompleteList, fetchTodo, supabase],
+    [fetchCompleteList, fetchTodo, supabase, userId],
   );
-
-  const handleTopPage = useCallback(() => {
-    router.push('.');
-  }, [router]);
 
   useEffect(() => {
     if (!isOpen) return;
@@ -227,10 +228,10 @@ export const useHooks = (): Hooks => {
     handleReset,
     handleChangeTime,
     scheduledTime,
-    handleTopPage,
     handleCompleteSearch,
     handleSearch,
     searchCompleteValue,
     searchValue,
+    select,
   };
 };
