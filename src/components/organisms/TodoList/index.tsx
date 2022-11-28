@@ -2,17 +2,17 @@ import type { FC } from 'react';
 import { changeTime, getToday } from '../../../libs/dayjs';
 import { Input } from '../../atoms/Input';
 import { LogoutButton } from '../../atoms/LogoutButton';
+import { Modal } from '../../atoms/Modal';
 import { SelectBox } from '../../atoms/SelectBox';
 import { TopPageButton } from '../../atoms/TopPageButton';
 import { AttendanceButtonWrapper } from '../../molecules/AttendanceButtonWrapper';
+import { EditTodoList } from '../../molecules/EditTodoList';
 import { useHooks } from './hooks';
 import { styles } from './styles';
 
 export const TodoList: FC = () => {
   const {
     edit,
-    editInputRef,
-    editValue,
     handleChange,
     handleClick,
     handleClose,
@@ -34,6 +34,7 @@ export const TodoList: FC = () => {
     handleSearch,
     searchCompleteValue,
     searchValue,
+    handleEditChangeTime,
   } = useHooks();
 
   return (
@@ -150,25 +151,13 @@ export const TodoList: FC = () => {
         )}
       </div>
       {isOpen && (
-        <div css={styles.editBox}>
-          <form>
-            <Input
-              placeholder="Edit Todo"
-              value={editValue}
-              onChange={handleEditChange}
-              ref={editInputRef}
-            />
-            <button
-              type="button"
-              css={[styles.button, styles.register]}
-              onClick={() => handleEdit(edit)}>
-              登録
-            </button>
-          </form>
-          <button type="button" onClick={handleClose}>
-            閉じる
-          </button>
-        </div>
+        <EditTodoList
+          handleClose={handleClose}
+          edit={edit}
+          handleEdit={handleEdit}
+          handleEditChange={handleEditChange}
+          handleEditTime={handleEditChangeTime}
+        />
       )}
     </div>
   );

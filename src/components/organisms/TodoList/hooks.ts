@@ -1,7 +1,5 @@
 import { useSupabaseClient } from '@supabase/auth-helpers-react';
-import { useAtom } from 'jotai';
-import React, { MutableRefObject, useCallback, useEffect, useRef, useState } from 'react';
-import { selectAttendance, Select } from '../../../jotai/selectAttendance';
+import { MutableRefObject, useCallback, useEffect, useRef, useState } from 'react';
 import { getToday } from '../../../libs/dayjs';
 import { useUserId } from '../../../libs/hooks/useUserId';
 
@@ -25,14 +23,12 @@ export type Hooks = {
   handleClick: (value: string) => void;
   handleDelete: (id: number) => void;
   inputRef: MutableRefObject<HTMLInputElement | null>;
-  editInputRef: MutableRefObject<HTMLInputElement | null>;
   handleOpen: (item: Item) => void;
   handleClose: () => void;
   isOpen: boolean;
   edit: Item;
   handleEdit: (item: Item) => void;
   handleEditChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  editValue: string;
   handleComplete: (item: Item) => void;
   completeList: CompleteItem[];
   handleCompleteDelete: (id: number) => void;
@@ -43,12 +39,11 @@ export type Hooks = {
   searchCompleteValue: string;
   handleSearch: (e: React.ChangeEvent<HTMLInputElement>) => void;
   handleCompleteSearch: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  select: Select | null;
+  handleEditChangeTime: (e: React.ChangeEvent<HTMLInputElement>) => void;
 };
 
 export const useHooks = (): Hooks => {
   const [value, setValue] = useState<string>('');
-  const [editValue, setEditValue] = useState<string>('');
   const [list, setList] = useState<Item[]>([]);
   const [completeList, setCompleteList] = useState<CompleteItem[]>([]);
   const [isOpen, setIsOpen] = useState<boolean>(false);
@@ -59,13 +54,11 @@ export const useHooks = (): Hooks => {
     scheduledTime: '',
   });
   const inputRef = useRef<HTMLInputElement | null>(null);
-  const editInputRef = useRef<HTMLInputElement | null>(null);
   const [scheduledTime, setScheduledTime] = useState<string>('');
   const [searchValue, setSearchValue] = useState<string>('');
   const [searchCompleteValue, setSearchCompleteValue] = useState<string>('');
   const supabase = useSupabaseClient();
   const { userId } = useUserId();
-  const [select, setSelect] = useAtom(selectAttendance);
 
   const handleChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
     setValue(e.target.value);
@@ -127,13 +120,15 @@ export const useHooks = (): Hooks => {
   );
 
   const handleEditChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
-    setEditValue(e.target.value);
+    setEdit((prev) => ({
+      ...prev,
+      value: e.target.value,
+    }));
   }, []);
 
   const handleOpen = useCallback((item: Item) => {
     setIsOpen(true);
     setEdit(item);
-    setEditValue(item.value);
   }, []);
 
   const handleClose = useCallback(() => {
@@ -142,12 +137,15 @@ export const useHooks = (): Hooks => {
 
   const handleEdit = useCallback(
     async (item: Item) => {
-      if (editValue.length === 0) return;
-      await supabase.from('todos').update({ value: editValue }).eq('id', item.id);
+      if (item.value.length === 0) return;
+      await supabase
+        .from('todos')
+        .update({ value: item.value, scheduledTime: item.scheduledTime })
+        .eq('id', item.id);
       fetchTodo();
       handleClose();
     },
-    [editValue, fetchTodo, handleClose, supabase],
+    [fetchTodo, handleClose, supabase],
   );
 
   const handleDelete = useCallback(
@@ -197,10 +195,12 @@ export const useHooks = (): Hooks => {
     [fetchCompleteList, fetchTodo, supabase, userId],
   );
 
-  useEffect(() => {
-    if (!isOpen) return;
-    editInputRef.current?.focus();
-  }, [isOpen]);
+  const handleEditChangeTime = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+    setEdit((prev) => ({
+      ...prev,
+      scheduledTime: e.target.value,
+    }));
+  }, []);
 
   useEffect(() => {
     fetchTodo();
@@ -209,8 +209,6 @@ export const useHooks = (): Hooks => {
 
   return {
     edit,
-    editInputRef,
-    editValue,
     handleChange,
     handleClick,
     handleClose,
@@ -232,6 +230,6 @@ export const useHooks = (): Hooks => {
     handleSearch,
     searchCompleteValue,
     searchValue,
-    select,
+    handleEditChangeTime,
   };
 };
