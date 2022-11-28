@@ -4,6 +4,7 @@ import { useAtom } from 'jotai';
 import { useCallback, useEffect, useState } from 'react';
 import { selectAttendance, Select } from '../../../jotai/selectAttendance';
 import { getToday } from '../../../libs/dayjs';
+import { useUserId } from '../../../libs/hooks/useUserId';
 
 export type Hooks = {
   nowTime: string;
@@ -25,6 +26,7 @@ export const useHooks = (): Hooks => {
   const [resultBreakingTime, setResultBreakingTime] = useState<number>(0);
   const supabase = useSupabaseClient();
   const [select, setSelect] = useAtom(selectAttendance);
+  const { userId } = useUserId();
 
   const handleSignOut = useCallback(() => {
     supabase.auth.signOut();
@@ -68,15 +70,14 @@ export const useHooks = (): Hooks => {
   }, [setSelect]);
 
   const handleInsert = useCallback(async () => {
-    const userId = (await supabase.auth.getUser()).data.user?.id;
     await supabase.from('attendance').insert({
       attendance_time: attendanceTime,
-      userId: userId,
+      userid: userId,
       breaking_time: resultBreakingTime,
       worked_time: workedTime,
     });
     handleReset();
-  }, [attendanceTime, handleReset, resultBreakingTime, supabase, workedTime]);
+  }, [attendanceTime, handleReset, resultBreakingTime, supabase, userId, workedTime]);
 
   useEffect(() => {
     const interval = setInterval(() => {
