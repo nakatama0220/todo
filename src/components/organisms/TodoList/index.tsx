@@ -1,6 +1,7 @@
 import type { FC } from 'react';
 import { changeTime, getToday } from '../../../libs/dayjs';
 import { Input } from '../../atoms/Input';
+import { LogoutButton } from '../../atoms/LogoutButton';
 import { SelectBox } from '../../atoms/SelectBox';
 import { TopPageButton } from '../../atoms/TopPageButton';
 import { AttendanceButtonWrapper } from '../../molecules/AttendanceButtonWrapper';
@@ -33,7 +34,6 @@ export const TodoList: FC = () => {
     handleSearch,
     searchCompleteValue,
     searchValue,
-    handleSignOut,
   } = useHooks();
 
   return (
@@ -41,9 +41,7 @@ export const TodoList: FC = () => {
       <div css={styles.titleWrapper}>
         <h1 css={styles.title}>TODOリスト</h1>
         <TopPageButton />
-        <button css={[styles.button, styles.logout]} type="button" onClick={handleSignOut}>
-          ログアウト
-        </button>
+        <LogoutButton />
       </div>
       <SelectBox selectMenu="todo" />
       <AttendanceButtonWrapper />

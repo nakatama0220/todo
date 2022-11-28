@@ -1,6 +1,5 @@
 import { useSupabaseClient } from '@supabase/auth-helpers-react';
 import dayjs from 'dayjs';
-import { useRouter } from 'next/router';
 import { useState, useCallback, useEffect } from 'react';
 import { changeTime } from '../../../libs/dayjs';
 
@@ -14,11 +13,9 @@ type Item = {
 export type Hooks = {
   list: Item[];
   handleDelete: (id: number) => void;
-  handleSignOut: () => void;
 };
 
 export const useHooks = (): Hooks => {
-  const router = useRouter();
   const [list, setList] = useState<Item[]>([]);
   const supabase = useSupabaseClient();
 
@@ -57,11 +54,6 @@ export const useHooks = (): Hooks => {
     [fetch, supabase],
   );
 
-  const handleSignOut = useCallback(() => {
-    supabase.auth.signOut();
-    router.push('.');
-  }, [supabase.auth, router]);
-
   useEffect(() => {
     fetch();
   }, [fetch]);
@@ -69,6 +61,5 @@ export const useHooks = (): Hooks => {
   return {
     list,
     handleDelete,
-    handleSignOut,
   };
 };

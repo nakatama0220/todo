@@ -42,9 +42,4 @@ export const styles = {
     padding: 5px;
     border-radius: 5px;
   `,
-  button: css`
-    padding: 5px;
-    color: red;
-    background-color: white;
-  `,
 };

@@ -1,4 +1,5 @@
 import type { FC } from 'react';
+import { LogoutButton } from '../../atoms/LogoutButton';
 import { SelectBox } from '../../atoms/SelectBox';
 import { TopPageButton } from '../../atoms/TopPageButton';
 import { AttendanceButtonWrapper } from '../../molecules/AttendanceButtonWrapper';
@@ -6,16 +7,14 @@ import { useHooks } from './hooks';
 import { styles } from './styles';
 
 export const Attendance: FC = () => {
-  const { list, handleDelete, handleSignOut } = useHooks();
+  const { list, handleDelete } = useHooks();
 
   return (
     <div css={styles.root}>
       <div css={styles.wrapper}>
         <h1 css={styles.title}>勤怠リスト</h1>
         <TopPageButton />
-        <button css={styles.button} type="button" onClick={handleSignOut}>
-          ログアウト
-        </button>
+        <LogoutButton />
       </div>
       <SelectBox selectMenu="attendance" />
       <AttendanceButtonWrapper />
