@@ -131,6 +131,7 @@ export const useHooks = (): Hooks => {
 
   const handleReset = useCallback(
     async (id: string) => {
+      if (id === '') return;
       setFormValue(null);
       setResultBreakingTime(0);
       await supabase.from('nowAttendance').delete().eq('id', id);
