@@ -11,6 +11,7 @@ export const AttendanceButtonWrapper: FC = () => {
     handleReset,
     handleWorkedClick,
     select,
+    formValue,
   } = useHooks();
 
   return (
@@ -28,14 +29,14 @@ export const AttendanceButtonWrapper: FC = () => {
           styles.attendanceButton,
           select === 'attendance' || select === 'breakingOut' ? styles.able : styles.disabled,
         ]}
-        onClick={handleBreakingClick}
+        onClick={() => handleBreakingClick(formValue?.id ?? '')}
         disabled={select === 'attendance' || select === 'breakingOut' ? false : true}>
         休憩開始
       </button>
       <button
         type="button"
         css={[styles.attendanceButton, select === 'breaking' ? styles.able : styles.disabled]}
-        onClick={handleBreakingOutClick}
+        onClick={() => handleBreakingOutClick(formValue?.id ?? '')}
         disabled={select === 'breaking' ? false : true}>
         休憩終了
       </button>
@@ -45,21 +46,21 @@ export const AttendanceButtonWrapper: FC = () => {
           styles.attendanceButton,
           select === 'attendance' || select === 'breakingOut' ? styles.able : styles.disabled,
         ]}
-        onClick={handleWorkedClick}
+        onClick={() => handleWorkedClick(formValue?.id ?? '')}
         disabled={select === 'attendance' || select === 'breakingOut' ? false : true}>
         退勤
       </button>
       <button
         type="button"
         css={[styles.attendanceButton, select === 'worked' ? styles.enterButton : styles.disabled]}
-        onClick={handleInsert}
+        onClick={() => handleInsert(formValue?.id ?? '')}
         disabled={select === 'worked' ? false : true}>
         決定
       </button>
       <button
         type="button"
         css={[styles.attendanceButton, styles.resetButton]}
-        onClick={handleReset}>
+        onClick={() => handleReset(formValue?.id ?? '')}>
         リセット
       </button>
     </div>
