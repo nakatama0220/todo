@@ -184,12 +184,16 @@ export const useHooks = (): Hooks => {
     async (item: CompleteItem) => {
       await supabase.from('complete').delete().eq('id', item.id);
       fetchCompleteList();
-      await supabase
-        .from('todos')
-        .insert({ value: item.value, time: getToday('YYYY-MM-DDTHH:mm') });
+      // TODO: scheduleTime調整
+      await supabase.from('todos').insert({
+        value: item.value,
+        time: getToday('YYYY-MM-DDTHH:mm'),
+        scheduledTime: getToday('YYYY-MM-DDTHH:mm'),
+        userid: userId,
+      });
       fetchTodo();
     },
-    [fetchCompleteList, fetchTodo, supabase],
+    [fetchCompleteList, fetchTodo, supabase, userId],
   );
 
   const handleTopPage = useCallback(() => {
