@@ -5,6 +5,7 @@ export const styles = {
     display: flex;
     flex-direction: column;
     gap: 20px;
+    align-items: center;
   `,
   title: css`
     font-size: 3rem;
