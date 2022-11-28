@@ -1,7 +1,7 @@
+import { useSupabaseClient } from '@supabase/auth-helpers-react';
 import dayjs from 'dayjs';
 import { useRouter } from 'next/router';
 import { useState, useCallback, useEffect } from 'react';
-import supabase from '../../../../utils/supabase';
 import { changeTime } from '../../../libs/dayjs';
 
 type Item = {
@@ -20,6 +20,7 @@ export type Hooks = {
 export const useHooks = (): Hooks => {
   const router = useRouter();
   const [list, setList] = useState<Item[]>([]);
+  const supabase = useSupabaseClient();
 
   const getTotalScore = useCallback(
     (attendanceTime: string, breakingTime: number, workedTime: string) => {
@@ -46,7 +47,7 @@ export const useHooks = (): Hooks => {
       totalScore: getTotalScore(item.attendance_time, item.breaking_time, item.worked_time),
     }));
     setList(result);
-  }, [getTotalScore]);
+  }, [getTotalScore, supabase]);
 
   const handleTopPage = useCallback(() => {
     router.push('.');
@@ -57,7 +58,7 @@ export const useHooks = (): Hooks => {
       await supabase.from('attendance').delete().eq('id', id);
       fetch();
     },
-    [fetch],
+    [fetch, supabase],
   );
 
   useEffect(() => {

@@ -1,6 +1,6 @@
+import { useSupabaseClient } from '@supabase/auth-helpers-react';
 import { useRouter } from 'next/router';
 import React, { MutableRefObject, useCallback, useEffect, useRef, useState } from 'react';
-import supabase from '../../../../utils/supabase';
 import { getToday } from '../../../libs/dayjs';
 
 export type CompleteItem = {
@@ -62,6 +62,7 @@ export const useHooks = (): Hooks => {
   const router = useRouter();
   const [searchValue, setSearchValue] = useState<string>('');
   const [searchCompleteValue, setSearchCompleteValue] = useState<string>('');
+  const supabase = useSupabaseClient();
 
   const handleChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
     setValue(e.target.value);
@@ -71,13 +72,13 @@ export const useHooks = (): Hooks => {
     const datas = (await supabase.from('todos').select('*')).data;
     if (!datas) return;
     setList(datas);
-  }, []);
+  }, [supabase]);
 
   const fetchCompleteList = useCallback(async () => {
     const datas = (await supabase.from('complete').select('*')).data;
     if (!datas) return;
     setCompleteList(datas);
-  }, []);
+  }, [supabase]);
 
   const handleClick = useCallback(
     async (value: string) => {
@@ -92,7 +93,7 @@ export const useHooks = (): Hooks => {
       setScheduledTime('');
       inputRef.current?.focus();
     },
-    [fetchTodo, scheduledTime],
+    [fetchTodo, scheduledTime, supabase],
   );
 
   const handleSearch = useCallback(
@@ -105,7 +106,7 @@ export const useHooks = (): Hooks => {
       }
       setList(data);
     },
-    [fetchTodo],
+    [fetchTodo, supabase],
   );
 
   const handleCompleteSearch = useCallback(
@@ -118,7 +119,7 @@ export const useHooks = (): Hooks => {
       }
       setCompleteList(data);
     },
-    [fetchCompleteList],
+    [fetchCompleteList, supabase],
   );
 
   const handleEditChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
@@ -142,7 +143,7 @@ export const useHooks = (): Hooks => {
       fetchTodo();
       handleClose();
     },
-    [editValue, fetchTodo, handleClose],
+    [editValue, fetchTodo, handleClose, supabase],
   );
 
   const handleDelete = useCallback(
@@ -150,7 +151,7 @@ export const useHooks = (): Hooks => {
       await supabase.from('todos').delete().eq('id', id);
       fetchTodo();
     },
-    [fetchTodo],
+    [fetchTodo, supabase],
   );
 
   const handleComplete = useCallback(
@@ -161,7 +162,7 @@ export const useHooks = (): Hooks => {
       handleDelete(item.id);
       fetchCompleteList();
     },
-    [fetchCompleteList, handleDelete],
+    [fetchCompleteList, handleDelete, supabase],
   );
 
   const handleCompleteDelete = useCallback(
@@ -169,7 +170,7 @@ export const useHooks = (): Hooks => {
       await supabase.from('complete').delete().eq('id', id);
       fetchCompleteList();
     },
-    [fetchCompleteList],
+    [fetchCompleteList, supabase],
   );
 
   const handleChangeTime = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
@@ -185,12 +186,12 @@ export const useHooks = (): Hooks => {
         .insert({ value: item.value, time: getToday('YYYY-MM-DDTHH:mm') });
       fetchTodo();
     },
-    [fetchCompleteList, fetchTodo],
+    [fetchCompleteList, fetchTodo, supabase],
   );
 
   const handleTopPage = useCallback(() => {
     router.push('.');
-  }, []);
+  }, [router]);
 
   useEffect(() => {
     if (!isOpen) return;
