@@ -15,6 +15,7 @@ export type Hooks = {
   handleTopPage: () => void;
   list: Item[];
   handleDelete: (id: number) => void;
+  handleSignOut: () => void;
 };
 
 export const useHooks = (): Hooks => {
@@ -61,6 +62,11 @@ export const useHooks = (): Hooks => {
     [fetch, supabase],
   );
 
+  const handleSignOut = useCallback(() => {
+    supabase.auth.signOut();
+    handleTopPage();
+  }, [supabase.auth, handleTopPage]);
+
   useEffect(() => {
     fetch();
   }, [fetch]);
@@ -69,5 +75,6 @@ export const useHooks = (): Hooks => {
     handleTopPage,
     list,
     handleDelete,
+    handleSignOut,
   };
 };

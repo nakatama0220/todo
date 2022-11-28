@@ -5,7 +5,7 @@ import { useHooks } from './hooks';
 import { styles } from './styles';
 
 export const Attendance: FC = () => {
-  const { handleTopPage, list, handleDelete } = useHooks();
+  const { handleTopPage, list, handleDelete, handleSignOut } = useHooks();
 
   return (
     <div css={styles.root}>
@@ -13,6 +13,9 @@ export const Attendance: FC = () => {
         <h1 css={styles.title}>勤怠リスト</h1>
         <button type="button" css={styles.topPage} onClick={handleTopPage}>
           トップページに戻る
+        </button>
+        <button css={styles.button} type="button" onClick={handleSignOut}>
+          ログアウト
         </button>
       </div>
       <SelectBox selectMenu="attendance" />
