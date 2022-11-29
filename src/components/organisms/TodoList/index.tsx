@@ -50,6 +50,7 @@ export const TodoList: FC = () => {
         onChange={handleChange}
         onChangeTime={handleChangeTime}
         inputRef={inputRef}
+        placeholder="TODOを入力してください"
       />
       <div css={styles.body}>
         {list.length > 0 && (
