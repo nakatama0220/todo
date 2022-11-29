@@ -1,7 +1,7 @@
 import type { FC } from 'react';
-import { getToday } from '../../../libs/dayjs';
 import { Modal } from '../../atoms/Modal';
 import type { Item } from '../../organisms/TodoList/hooks';
+import { TodoRegisterWrapper } from '../TodoRegisterWrapper';
 import { useHooks } from './hooks';
 import { styles } from './styles';
 
@@ -23,29 +23,15 @@ export const EditTodoModal: FC<Props> = ({
   return (
     <Modal handleClose={handleClose}>
       <div css={styles.root}>
-        <form>
-          <input
-            type="text"
-            placeholder="Edit Todo"
-            value={edit.value}
-            onChange={handleEditChange}
-            ref={inputRef}
-            css={styles.input}
-          />
-          <input
-            css={[styles.input, styles.time]}
-            onChange={handleEditTime}
-            type="date"
-            value={edit.scheduledTime}
-            min={getToday('YYYY-MM-DD')}
-          />
-          <button
-            type="button"
-            css={[styles.button, styles.register]}
-            onClick={() => handleEdit(edit)}>
-            登録
-          </button>
-        </form>
+        <TodoRegisterWrapper
+          text={edit.value}
+          scheduledTime={edit.scheduledTime}
+          onClick={() => handleEdit(edit)}
+          onChange={handleEditChange}
+          onChangeTime={handleEditTime}
+          inputRef={inputRef}
+          placeholder="Edit Todo"
+        />
         <button type="button" onClick={handleClose} css={[styles.button, styles.editButton]}>
           閉じる
         </button>
