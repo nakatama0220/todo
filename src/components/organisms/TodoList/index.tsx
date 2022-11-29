@@ -28,7 +28,6 @@ export const TodoList: FC = () => {
     handleCompleteDelete,
     handleReset,
     handleChangeTime,
-    scheduledTime,
     handleCompleteSearch,
     handleSearch,
     searchCompleteValue,
@@ -42,18 +41,18 @@ export const TodoList: FC = () => {
       <SelectBox />
       <AttendanceButtonWrapper />
       <form>
-        <Input placeholder="New Todo" value={value} onChange={handleChange} ref={inputRef} />
+        <Input placeholder="New Todo" value={value.text} onChange={handleChange} ref={inputRef} />
         <input
           css={styles.input}
           onChange={handleChangeTime}
           type="date"
-          value={scheduledTime}
+          value={value.scheduledTime}
           min={getToday('YYYY-MM-DD')}
         />
         <button
           type="button"
           css={[styles.button, styles.register]}
-          onClick={() => handleClick(value)}>
+          onClick={() => handleClick(value.text)}>
           登録
         </button>
       </form>
