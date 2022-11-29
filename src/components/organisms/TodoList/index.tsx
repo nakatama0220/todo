@@ -1,5 +1,6 @@
 import type { FC } from 'react';
 import { changeTime, getToday } from '../../../libs/dayjs';
+import { DeleteButton } from '../../atoms/DeleteButton';
 import { Input } from '../../atoms/Input';
 import { LogoutButton } from '../../atoms/LogoutButton';
 import { Modal } from '../../atoms/Modal';
@@ -82,12 +83,7 @@ export const TodoList: FC = () => {
                     <div css={styles.item}>{changeTime(item.time, 'YYYY年MM月DD日')}</div>
                     <div css={styles.item}>{changeTime(item.scheduledTime, 'YYYY年MM月DD日')}</div>
                     <div css={styles.buttonWrapper}>
-                      <button
-                        type="button"
-                        css={[styles.button, styles.delete]}
-                        onClick={() => handleDelete(item.id)}>
-                        削除
-                      </button>
+                      <DeleteButton onClick={() => handleDelete(item.id)} />
                       <button
                         type="button"
                         css={[styles.button, styles.edit]}
@@ -133,12 +129,7 @@ export const TodoList: FC = () => {
                         onClick={() => handleReset(item)}>
                         戻す
                       </button>
-                      <button
-                        type="button"
-                        css={[styles.button, styles.delete]}
-                        onClick={() => handleCompleteDelete(item.id)}>
-                        削除
-                      </button>
+                      <DeleteButton onClick={() => handleCompleteDelete(item.id)} />
                     </div>
                   </li>
                 ))}

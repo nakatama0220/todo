@@ -1,7 +1,6 @@
 import type { FC } from 'react';
-import { LogoutButton } from '../../atoms/LogoutButton';
+import { DeleteButton } from '../../atoms/DeleteButton';
 import { SelectBox } from '../../atoms/SelectBox';
-import { TopPageButton } from '../../atoms/TopPageButton';
 import { AttendanceButtonWrapper } from '../../molecules/AttendanceButtonWrapper';
 import { TitleWrapper } from '../../molecules/TitleWrapper';
 import { useHooks } from './hooks';
@@ -30,12 +29,7 @@ export const Attendance: FC = () => {
                 <span css={styles.item}>{item.breakingTime}</span>
                 <span css={styles.item}>{item.workedTime}</span>
                 <span css={styles.item}>{item.totalScore}</span>
-                <button
-                  type="button"
-                  css={styles.deleteButton}
-                  onClick={() => handleDelete(item.id)}>
-                  削除
-                </button>
+                <DeleteButton onClick={() => handleDelete(item.id)} />
               </li>
             ))}
           </ul>
