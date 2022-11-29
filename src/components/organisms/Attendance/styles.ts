@@ -4,27 +4,21 @@ export const styles = {
   root: css`
     display: flex;
     flex-direction: column;
-    gap: 20px;
+    gap: 10px;
     align-items: center;
-  `,
-  title: css`
-    font-size: 3rem;
-    color: #9acd32;
-  `,
-  wrapper: css`
-    display: flex;
-    gap: 20px;
   `,
   header: css`
     display: flex;
+    border-bottom: 1px solid #333;
   `,
   body: css`
     background-color: #b0e0e6;
     border-radius: 5px;
     padding: 15px;
+    min-width: 950px;
   `,
   item: css`
-    width: 220px;
+    width: 23%;
     display: flex;
     justify-content: center;
   `,
@@ -32,14 +26,12 @@ export const styles = {
     display: flex;
     flex-direction: column;
     gap: 15px;
+    margin-top: 5px;
+    max-height: 370px;
+    overflow-y: auto;
   `,
   listItem: css`
     display: flex;
     align-items: center;
-  `,
-  deleteButton: css`
-    background-color: #ff0000;
-    padding: 5px;
-    border-radius: 5px;
   `,
 };

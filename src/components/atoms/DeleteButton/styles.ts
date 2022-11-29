@@ -2,9 +2,9 @@ import { css } from '@emotion/react';
 
 export const styles = {
   root: css`
-    width: 260px;
+    background-color: #ff0000;
     padding: 5px;
-    border-top-left-radius: 5px;
-    border-bottom-left-radius: 5px;
+    border-radius: 5px;
+    color: #fff;
   `,
 };

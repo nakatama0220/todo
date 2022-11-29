@@ -1,12 +1,14 @@
 import type { FC } from 'react';
 import { changeTime, getToday } from '../../../libs/dayjs';
-import { Input } from '../../atoms/Input';
-import { LogoutButton } from '../../atoms/LogoutButton';
-import { Modal } from '../../atoms/Modal';
+import { DeleteButton } from '../../atoms/DeleteButton';
 import { SelectBox } from '../../atoms/SelectBox';
-import { TopPageButton } from '../../atoms/TopPageButton';
 import { AttendanceButtonWrapper } from '../../molecules/AttendanceButtonWrapper';
-import { EditTodoList } from '../../molecules/EditTodoList';
+import { CommonList } from '../../molecules/CommonList';
+import { EditTodoModal } from '../../molecules/EditTodoModal';
+import { TitleWrapper } from '../../molecules/TitleWrapper';
+import { TodoBody } from '../../molecules/TodoBody';
+import { TodoBodyItem } from '../../molecules/TodoBodyItem';
+import { TodoRegisterWrapper } from '../../molecules/TodoRegisterWrapper';
 import { useHooks } from './hooks';
 import { styles } from './styles';
 
@@ -29,7 +31,6 @@ export const TodoList: FC = () => {
     handleCompleteDelete,
     handleReset,
     handleChangeTime,
-    scheduledTime,
     handleCompleteSearch,
     handleSearch,
     searchCompleteValue,
@@ -38,59 +39,45 @@ export const TodoList: FC = () => {
   } = useHooks();
 
   return (
-    <div css={styles.container}>
-      <div css={styles.titleWrapper}>
-        <h1 css={styles.title}>TODOリスト</h1>
-        <TopPageButton />
-        <LogoutButton />
-      </div>
-      <SelectBox selectMenu="todo" />
+    <div css={styles.root}>
+      <TitleWrapper title="TODOリスト" hasTopPageButton />
+      <SelectBox />
       <AttendanceButtonWrapper />
-      <form>
-        <Input placeholder="New Todo" value={value} onChange={handleChange} ref={inputRef} />
-        <input
-          css={styles.input}
-          onChange={handleChangeTime}
-          type="date"
-          value={scheduledTime}
-          min={getToday('YYYY-MM-DD')}
+      <div css={styles.registerWrapper}>
+        <TodoRegisterWrapper
+          text={value.text}
+          scheduledTime={value.scheduledTime}
+          onClick={() => handleClick(value.text)}
+          onChange={handleChange}
+          onChangeTime={handleChangeTime}
+          inputRef={inputRef}
+          placeholder="TODOを入力してください"
         />
-        <button
-          type="button"
-          css={[styles.button, styles.register]}
-          onClick={() => handleClick(value)}>
-          登録
-        </button>
-      </form>
+      </div>
       <div css={styles.body}>
         {list.length > 0 && (
-          <div css={styles.searchWrapper}>
+          <TodoBodyItem>
             <input
               placeholder="TODOを入力してください"
-              css={styles.inputText}
+              css={styles.input}
               value={searchValue}
               onChange={handleSearch}
             />
-            <div css={styles.listWrapper}>
-              <ul css={[styles.list, styles.listBorder]}>
-                <li css={styles.item}>TODO</li>
-                <li css={styles.item}>登録日</li>
-                <li css={styles.item}>予定日</li>
-                <li css={styles.action}>アクション</li>
-              </ul>
-              <ul css={styles.listItem}>
+            <TodoBody>
+              <div css={[styles.list, styles.header]}>
+                <span css={[styles.value, styles.headerItem]}>TODO</span>
+                <span css={[styles.headerDate, styles.headerItem]}>登録日</span>
+                <span css={[styles.headerDate, styles.headerItem]}>予定日</span>
+                <span css={[styles.action, styles.headerItem]}>アクション</span>
+              </div>
+              <CommonList>
                 {list.map((item) => (
                   <li css={styles.list} key={item.id}>
-                    <div css={styles.item}>{item.value}</div>
-                    <div css={styles.item}>{changeTime(item.time, 'YYYY年MM月DD日')}</div>
-                    <div css={styles.item}>{changeTime(item.scheduledTime, 'YYYY年MM月DD日')}</div>
+                    <div css={styles.value}>{item.value}</div>
+                    <div>{changeTime(item.time, 'YYYY年MM月DD日')}</div>
+                    <div>{changeTime(item.scheduledTime, 'YYYY年MM月DD日')}</div>
                     <div css={styles.buttonWrapper}>
-                      <button
-                        type="button"
-                        css={[styles.button, styles.delete]}
-                        onClick={() => handleDelete(item.id)}>
-                        削除
-                      </button>
+                      <DeleteButton onClick={() => handleDelete(item.id)} />
                       <button
                         type="button"
                         css={[styles.button, styles.edit]}
@@ -99,36 +86,36 @@ export const TodoList: FC = () => {
                       </button>
                       <button
                         type="button"
-                        css={[styles.button, styles.delete]}
+                        css={[styles.button, styles.complete]}
                         onClick={() => handleComplete(item)}>
                         完了
                       </button>
                     </div>
                   </li>
                 ))}
-              </ul>
-            </div>
-          </div>
+              </CommonList>
+            </TodoBody>
+          </TodoBodyItem>
         )}
         {completeList.length > 0 && (
-          <div css={styles.searchWrapper}>
+          <TodoBodyItem>
             <input
               placeholder="完了したTODOを入力してください"
-              css={styles.inputText}
+              css={styles.input}
               value={searchCompleteValue}
               onChange={handleCompleteSearch}
             />
-            <div css={styles.listWrapper}>
-              <ul css={[styles.list, styles.listBorder]}>
-                <li css={styles.item}>完了したTODO</li>
-                <li css={styles.item}>完了日</li>
-                <li css={styles.action}>アクション</li>
+            <TodoBody>
+              <ul css={[styles.list, styles.header]}>
+                <li css={[styles.value, styles.headerItem]}>完了したTODO</li>
+                <li css={[styles.headerDate, styles.headerItem]}>完了日</li>
+                <li css={[styles.action, styles.headerItem]}>アクション</li>
               </ul>
-              <ul css={styles.listItem}>
+              <CommonList>
                 {completeList.map((item) => (
                   <li css={styles.list} key={item.id}>
-                    <div css={styles.item}>{item.value}</div>
-                    <div css={styles.item}>{changeTime(item.time, 'YYYY年MM月DD日')}</div>
+                    <div css={styles.value}>{item.value}</div>
+                    <div>{changeTime(item.time, 'YYYY年MM月DD日')}</div>
                     <div css={styles.buttonWrapper}>
                       <button
                         type="button"
@@ -136,22 +123,17 @@ export const TodoList: FC = () => {
                         onClick={() => handleReset(item)}>
                         戻す
                       </button>
-                      <button
-                        type="button"
-                        css={[styles.button, styles.delete]}
-                        onClick={() => handleCompleteDelete(item.id)}>
-                        削除
-                      </button>
+                      <DeleteButton onClick={() => handleCompleteDelete(item.id)} />
                     </div>
                   </li>
                 ))}
-              </ul>
-            </div>
-          </div>
+              </CommonList>
+            </TodoBody>
+          </TodoBodyItem>
         )}
       </div>
       {isOpen && (
-        <EditTodoList
+        <EditTodoModal
           handleClose={handleClose}
           edit={edit}
           handleEdit={handleEdit}

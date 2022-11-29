@@ -4,7 +4,10 @@ export const styles = {
   root: css`
     display: flex;
     flex-direction: column;
-    align-items: center;
-    gap: 10px;
+    gap: 5px;
+    padding: 10px;
+    background-color: #333;
+    color: #fff;
+    font-size: 1.4rem;
   `,
 };

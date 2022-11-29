@@ -1,8 +1,8 @@
 import type { FC } from 'react';
-import { LogoutButton } from '../../atoms/LogoutButton';
+import { DeleteButton } from '../../atoms/DeleteButton';
 import { SelectBox } from '../../atoms/SelectBox';
-import { TopPageButton } from '../../atoms/TopPageButton';
 import { AttendanceButtonWrapper } from '../../molecules/AttendanceButtonWrapper';
+import { TitleWrapper } from '../../molecules/TitleWrapper';
 import { useHooks } from './hooks';
 import { styles } from './styles';
 
@@ -11,12 +11,8 @@ export const Attendance: FC = () => {
 
   return (
     <div css={styles.root}>
-      <div css={styles.wrapper}>
-        <h1 css={styles.title}>勤怠リスト</h1>
-        <TopPageButton />
-        <LogoutButton />
-      </div>
-      <SelectBox selectMenu="attendance" />
+      <TitleWrapper title="勤怠リスト" hasTopPageButton />
+      <SelectBox />
       <AttendanceButtonWrapper />
       {list.length > 0 && (
         <div css={styles.body}>
@@ -33,12 +29,7 @@ export const Attendance: FC = () => {
                 <span css={styles.item}>{item.breakingTime}</span>
                 <span css={styles.item}>{item.workedTime}</span>
                 <span css={styles.item}>{item.totalScore}</span>
-                <button
-                  type="button"
-                  css={styles.deleteButton}
-                  onClick={() => handleDelete(item.id)}>
-                  削除
-                </button>
+                <DeleteButton onClick={() => handleDelete(item.id)} />
               </li>
             ))}
           </ul>
