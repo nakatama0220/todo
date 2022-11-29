@@ -1,11 +1,11 @@
 import { css } from '@emotion/react';
 
 export const styles = {
-  container: css`
+  root: css`
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 20px;
+    gap: 10px;
   `,
   register: css`
     background-color: #00ffff;
@@ -70,7 +70,7 @@ export const styles = {
   `,
   input: css`
     padding: 5px;
-    background: #d2d2d2;
+    background: #ff0000;
   `,
   searchWrapper: css`
     display: flex;

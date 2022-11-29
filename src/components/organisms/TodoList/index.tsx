@@ -1,11 +1,11 @@
 import type { FC } from 'react';
 import { changeTime, getToday } from '../../../libs/dayjs';
 import { DeleteButton } from '../../atoms/DeleteButton';
-import { Input } from '../../atoms/Input';
 import { SelectBox } from '../../atoms/SelectBox';
 import { AttendanceButtonWrapper } from '../../molecules/AttendanceButtonWrapper';
 import { EditTodoModal } from '../../molecules/EditTodoModal';
 import { TitleWrapper } from '../../molecules/TitleWrapper';
+import { TodoRegisterWrapper } from '../../molecules/TodoRegisterWrapper';
 import { useHooks } from './hooks';
 import { styles } from './styles';
 
@@ -36,26 +36,18 @@ export const TodoList: FC = () => {
   } = useHooks();
 
   return (
-    <div css={styles.container}>
+    <div css={styles.root}>
       <TitleWrapper title="TODOリスト" hasTopPageButton />
       <SelectBox />
       <AttendanceButtonWrapper />
-      <form>
-        <Input placeholder="New Todo" value={value.text} onChange={handleChange} ref={inputRef} />
-        <input
-          css={styles.input}
-          onChange={handleChangeTime}
-          type="date"
-          value={value.scheduledTime}
-          min={getToday('YYYY-MM-DD')}
-        />
-        <button
-          type="button"
-          css={[styles.button, styles.register]}
-          onClick={() => handleClick(value.text)}>
-          登録
-        </button>
-      </form>
+      <TodoRegisterWrapper
+        text={value.text}
+        scheduledTime={value.scheduledTime}
+        onClick={() => handleClick(value.text)}
+        onChange={handleChange}
+        onChangeTime={handleChangeTime}
+        inputRef={inputRef}
+      />
       <div css={styles.body}>
         {list.length > 0 && (
           <div css={styles.searchWrapper}>
