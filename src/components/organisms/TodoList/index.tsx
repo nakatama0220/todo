@@ -2,12 +2,9 @@ import type { FC } from 'react';
 import { changeTime, getToday } from '../../../libs/dayjs';
 import { DeleteButton } from '../../atoms/DeleteButton';
 import { Input } from '../../atoms/Input';
-import { LogoutButton } from '../../atoms/LogoutButton';
-import { Modal } from '../../atoms/Modal';
 import { SelectBox } from '../../atoms/SelectBox';
-import { TopPageButton } from '../../atoms/TopPageButton';
 import { AttendanceButtonWrapper } from '../../molecules/AttendanceButtonWrapper';
-import { EditTodoList } from '../../molecules/EditTodoList';
+import { EditTodoModal } from '../../molecules/EditTodoModal';
 import { TitleWrapper } from '../../molecules/TitleWrapper';
 import { useHooks } from './hooks';
 import { styles } from './styles';
@@ -139,7 +136,7 @@ export const TodoList: FC = () => {
         )}
       </div>
       {isOpen && (
-        <EditTodoList
+        <EditTodoModal
           handleClose={handleClose}
           edit={edit}
           handleEdit={handleEdit}

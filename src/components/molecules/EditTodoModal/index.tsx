@@ -12,7 +12,7 @@ type Props = {
   edit: Item;
   handleEditTime: (e: React.ChangeEvent<HTMLInputElement>) => void;
 };
-export const EditTodoList: FC<Props> = ({
+export const EditTodoModal: FC<Props> = ({
   handleClose,
   edit,
   handleEdit,
