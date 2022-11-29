@@ -76,7 +76,8 @@ export const useHooks = (): Hooks => {
     setFormValue(result[0]);
     changeSelect(result[0]);
     setResultBreakingTime((prev) => prev + getBreakingTime(result[0]));
-  }, [supabase, changeSelect, getBreakingTime]);
+    setIsEnter(false);
+  }, [supabase, changeSelect, setIsEnter, getBreakingTime]);
 
   const handleAttendanceClick = useCallback(async () => {
     const today = getToday('YYYY-MM-DDTHH:mm');
