@@ -41,7 +41,7 @@ export const TodoList: FC = () => {
   return (
     <div css={styles.container}>
       <TitleWrapper title="TODOリスト" hasTopPageButton />
-      <SelectBox selectMenu="todo" />
+      <SelectBox />
       <AttendanceButtonWrapper />
       <form>
         <Input placeholder="New Todo" value={value} onChange={handleChange} ref={inputRef} />

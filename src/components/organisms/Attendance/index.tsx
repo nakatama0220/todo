@@ -13,7 +13,7 @@ export const Attendance: FC = () => {
   return (
     <div css={styles.root}>
       <TitleWrapper title="勤怠リスト" hasTopPageButton />
-      <SelectBox selectMenu="attendance" />
+      <SelectBox />
       <AttendanceButtonWrapper />
       {list.length > 0 && (
         <div css={styles.body}>

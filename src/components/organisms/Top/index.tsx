@@ -12,7 +12,7 @@ export const Top: FC = () => {
     <div css={styles.root}>
       <TitleWrapper title="トップページ" />
       <span>{`現在の時刻: ${nowTime}`}</span>
-      <SelectBox selectMenu="top" />
+      <SelectBox />
       <AttendanceButtonWrapper />
     </div>
   );

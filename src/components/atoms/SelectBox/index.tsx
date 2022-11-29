@@ -2,11 +2,7 @@ import type { FC } from 'react';
 import { useHooks } from './hooks';
 import { styles } from './styles';
 
-export type Props = {
-  selectMenu: 'top' | 'todo' | 'attendance';
-};
-
-export const SelectBox: FC<Props> = ({ selectMenu }) => {
+export const SelectBox: FC = () => {
   const { handleChange } = useHooks();
   return (
     <select css={styles.root} name="セレクトボックス" onChange={handleChange}>
