@@ -20,23 +20,21 @@ export const TodoRegisterWrapper: FC<Props> = ({
 }) => {
   return (
     <form css={styles.root}>
-      <div>
-        <input
-          type="text"
-          onChange={onChange}
-          value={text}
-          css={[styles.input, styles.text]}
-          placeholder="New Todo"
-          ref={inputRef}
-        />
-        <input
-          css={[styles.input, styles.time]}
-          onChange={onChangeTime}
-          type="date"
-          value={scheduledTime}
-          min={getToday('YYYY-MM-DD')}
-        />
-      </div>
+      <input
+        type="text"
+        onChange={onChange}
+        value={text}
+        css={[styles.input, styles.text]}
+        placeholder="New Todo"
+        ref={inputRef}
+      />
+      <input
+        css={[styles.input, styles.time]}
+        onChange={onChangeTime}
+        type="date"
+        value={scheduledTime}
+        min={getToday('YYYY-MM-DD')}
+      />
       <button type="button" css={styles.button} onClick={onClick}>
         登録
       </button>

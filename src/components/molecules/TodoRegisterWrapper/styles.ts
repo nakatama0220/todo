@@ -2,8 +2,7 @@ import { css } from '@emotion/react';
 
 export const styles = {
   root: css`
-    display: flex;
-    flex-direction: column;
+    width: 50%;
   `,
   button: css`
     padding: 5px;
@@ -13,12 +12,12 @@ export const styles = {
     padding: 5px;
   `,
   text: css`
-    width: 60%;
+    width: 70%;
     border-top-left-radius: 5px;
     border-bottom-left-radius: 5px;
   `,
   time: css`
-    width: 40%;
+    width: 20%;
     background-color: #6495ed;
   `,
 };
