@@ -1,12 +1,10 @@
 import { css } from '@emotion/react';
 
 export const styles = {
-  root: css`
-    width: 50%;
-  `,
   button: css`
-    padding: 5px;
+    padding: 6px;
     background-color: #00ffff;
+    width: 10%;
   `,
   input: css`
     padding: 5px;

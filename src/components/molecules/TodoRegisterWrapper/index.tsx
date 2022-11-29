@@ -9,6 +9,7 @@ type Props = {
   onChange: (e: ChangeEvent<HTMLInputElement>) => void;
   onChangeTime: (e: ChangeEvent<HTMLInputElement>) => void;
   inputRef: MutableRefObject<HTMLInputElement | null>;
+  placeholder: string;
 };
 export const TodoRegisterWrapper: FC<Props> = ({
   onClick,
@@ -17,15 +18,16 @@ export const TodoRegisterWrapper: FC<Props> = ({
   onChange,
   onChangeTime,
   inputRef,
+  placeholder,
 }) => {
   return (
-    <form css={styles.root}>
+    <form>
       <input
         type="text"
         onChange={onChange}
         value={text}
         css={[styles.input, styles.text]}
-        placeholder="New Todo"
+        placeholder={placeholder}
         ref={inputRef}
       />
       <input
