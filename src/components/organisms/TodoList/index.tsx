@@ -43,15 +43,17 @@ export const TodoList: FC = () => {
       <TitleWrapper title="TODOリスト" hasTopPageButton />
       <SelectBox />
       <AttendanceButtonWrapper />
-      <TodoRegisterWrapper
-        text={value.text}
-        scheduledTime={value.scheduledTime}
-        onClick={() => handleClick(value.text)}
-        onChange={handleChange}
-        onChangeTime={handleChangeTime}
-        inputRef={inputRef}
-        placeholder="TODOを入力してください"
-      />
+      <div css={styles.registerWrapper}>
+        <TodoRegisterWrapper
+          text={value.text}
+          scheduledTime={value.scheduledTime}
+          onClick={() => handleClick(value.text)}
+          onChange={handleChange}
+          onChangeTime={handleChangeTime}
+          inputRef={inputRef}
+          placeholder="TODOを入力してください"
+        />
+      </div>
       <div css={styles.body}>
         {list.length > 0 && (
           <TodoBodyItem>

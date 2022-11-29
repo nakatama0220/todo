@@ -8,6 +8,9 @@ export const styles = {
     gap: 10px;
     padding: 0 20px;
   `,
+  registerWrapper: css`
+    width: 50%;
+  `,
   body: css`
     display: flex;
     gap: 10px;
