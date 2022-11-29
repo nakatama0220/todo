@@ -3,6 +3,7 @@ import { LogoutButton } from '../../atoms/LogoutButton';
 import { SelectBox } from '../../atoms/SelectBox';
 import { TopPageButton } from '../../atoms/TopPageButton';
 import { AttendanceButtonWrapper } from '../../molecules/AttendanceButtonWrapper';
+import { TitleWrapper } from '../../molecules/TitleWrapper';
 import { useHooks } from './hooks';
 import { styles } from './styles';
 
@@ -11,11 +12,7 @@ export const Attendance: FC = () => {
 
   return (
     <div css={styles.root}>
-      <div css={styles.wrapper}>
-        <h1 css={styles.title}>勤怠リスト</h1>
-        <TopPageButton />
-        <LogoutButton />
-      </div>
+      <TitleWrapper title="勤怠リスト" hasTopPageButton />
       <SelectBox selectMenu="attendance" />
       <AttendanceButtonWrapper />
       {list.length > 0 && (

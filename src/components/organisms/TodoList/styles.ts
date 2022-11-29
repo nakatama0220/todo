@@ -1,10 +1,6 @@
 import { css } from '@emotion/react';
 
 export const styles = {
-  title: css`
-    font-size: 3rem;
-    color: #9acd32;
-  `,
   container: css`
     display: flex;
     flex-direction: column;
@@ -75,10 +71,6 @@ export const styles = {
   input: css`
     padding: 5px;
     background: #d2d2d2;
-  `,
-  titleWrapper: css`
-    display: flex;
-    gap: 20px;
   `,
   searchWrapper: css`
     display: flex;

@@ -7,6 +7,7 @@ import { SelectBox } from '../../atoms/SelectBox';
 import { TopPageButton } from '../../atoms/TopPageButton';
 import { AttendanceButtonWrapper } from '../../molecules/AttendanceButtonWrapper';
 import { EditTodoList } from '../../molecules/EditTodoList';
+import { TitleWrapper } from '../../molecules/TitleWrapper';
 import { useHooks } from './hooks';
 import { styles } from './styles';
 
@@ -39,11 +40,7 @@ export const TodoList: FC = () => {
 
   return (
     <div css={styles.container}>
-      <div css={styles.titleWrapper}>
-        <h1 css={styles.title}>TODOリスト</h1>
-        <TopPageButton />
-        <LogoutButton />
-      </div>
+      <TitleWrapper title="TODOリスト" hasTopPageButton />
       <SelectBox selectMenu="todo" />
       <AttendanceButtonWrapper />
       <form>
