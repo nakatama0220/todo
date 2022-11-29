@@ -15,6 +15,7 @@ export const styles = {
     display: flex;
     gap: 10px;
     width: 100%;
+    justify-content: center;
   `,
   input: css`
     padding: 5px;
