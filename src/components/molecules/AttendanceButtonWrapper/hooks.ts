@@ -13,16 +13,19 @@ type FormValue = {
   breakingOnTime?: string;
   breakingOffTime?: string;
   workedTime?: string;
+  breakingTime?: number;
+  select?: string;
 };
 export type Hooks = {
   select: Select | null;
   handleAttendanceClick: () => void;
   handleBreakingClick: (id: string) => void;
-  handleBreakingOutClick: (id: string) => void;
+  handleBreakingOutClick: (value: FormValue | null, currentTime: number) => void;
   handleWorkedClick: (id: string) => void;
   handleInsert: (id: string) => void;
   handleReset: (id: string) => void;
   formValue: FormValue | null;
+  resultBreakingTime: number;
 };
 
 export const useHooks = (): Hooks => {
@@ -33,33 +36,9 @@ export const useHooks = (): Hooks => {
   const [, setIsEnter] = useAtom(isEnterAttendance);
   const { userId } = useUserId();
 
-  const changeSelect = useCallback(
-    (value: FormValue) => {
-      if (value?.workedTime) {
-        setSelect('worked');
-        return;
-      }
-      if (value?.breakingOffTime) {
-        setSelect('breakingOut');
-        return;
-      }
-      if (value?.breakingOnTime) {
-        setSelect('breaking');
-        return;
-      }
-      if (value?.attendanceTime) {
-        setSelect('attendance');
-        return;
-      }
-      setSelect(null);
-    },
-    [setSelect],
-  );
-
-  const getBreakingTime = useCallback((value: FormValue) => {
-    if (!value) return 0;
-    if (value.breakingOffTime?.length === 0 || (value?.breakingOnTime ?? '').length === 0) return 0;
-    const result = dayjs(value.breakingOffTime).diff(dayjs(value.breakingOnTime), 'm');
+  const getBreakingTime = useCallback((on: string, off: string) => {
+    if (off.length === 0 || on.length === 0) return 0;
+    const result = dayjs(off).diff(dayjs(on), 'm');
     return result;
   }, []);
 
@@ -72,18 +51,21 @@ export const useHooks = (): Hooks => {
       breakingOnTime: item.now_breaking_on,
       breakingOffTime: item.now_breaking_off,
       workedTime: item.now_worked,
+      breakingTime: item.total_breaking_time,
+      select: item.select,
     }));
     setFormValue(result[0]);
-    changeSelect(result[0]);
-    setResultBreakingTime((prev) => prev + getBreakingTime(result[0]));
+    setResultBreakingTime(result[0] ? result[0].breakingTime : 0);
+    setSelect(result[0] ? result[0].select : null);
     setIsEnter(false);
-  }, [supabase, changeSelect, setIsEnter, getBreakingTime]);
+  }, [supabase, setSelect, setIsEnter]);
 
   const handleAttendanceClick = useCallback(async () => {
     const today = getToday('YYYY-MM-DDTHH:mm');
     await supabase.from('nowAttendance').insert({
       now_attendance: today,
       userid: userId,
+      select: 'attendance',
     });
     fetch();
   }, [supabase, userId, fetch]);
@@ -95,6 +77,7 @@ export const useHooks = (): Hooks => {
         .from('nowAttendance')
         .update({
           now_breaking_on: today,
+          select: 'breaking',
         })
         .eq('id', id);
       fetch();
@@ -103,17 +86,22 @@ export const useHooks = (): Hooks => {
   );
 
   const handleBreakingOutClick = useCallback(
-    async (id: string) => {
+    async (value: FormValue | null, currentTime: number) => {
+      if (!value) return;
       const today = getToday('YYYY-MM-DDTHH:mm');
+      const breakingTime = currentTime + getBreakingTime(value.breakingOnTime ?? '', today);
       await supabase
         .from('nowAttendance')
         .update({
           now_breaking_off: today,
+          total_breaking_time: breakingTime,
+          select: 'breakingOut',
         })
-        .eq('id', id);
+        .eq('id', value.id);
+      setResultBreakingTime(breakingTime);
       fetch();
     },
-    [fetch, supabase],
+    [fetch, getBreakingTime, supabase],
   );
 
   const handleWorkedClick = useCallback(
@@ -123,6 +111,7 @@ export const useHooks = (): Hooks => {
         .from('nowAttendance')
         .update({
           now_worked: today,
+          select: 'worked',
         })
         .eq('id', id);
       fetch();
@@ -176,5 +165,6 @@ export const useHooks = (): Hooks => {
     handleInsert,
     handleReset,
     formValue,
+    resultBreakingTime,
   };
 };
