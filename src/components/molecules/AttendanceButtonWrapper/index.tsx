@@ -12,8 +12,8 @@ export const AttendanceButtonWrapper: FC = () => {
     handleWorkedClick,
     select,
     formValue,
+    resultBreakingTime,
   } = useHooks();
-
   return (
     <div css={styles.buttonWrapper}>
       <button
@@ -36,7 +36,7 @@ export const AttendanceButtonWrapper: FC = () => {
       <button
         type="button"
         css={[styles.attendanceButton, select === 'breaking' ? styles.able : styles.disabled]}
-        onClick={() => handleBreakingOutClick(formValue?.id ?? '')}
+        onClick={() => handleBreakingOutClick(formValue, resultBreakingTime)}
         disabled={select === 'breaking' ? false : true}>
         休憩終了
       </button>
