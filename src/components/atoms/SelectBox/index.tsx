@@ -10,6 +10,7 @@ export const SelectBox: FC = () => {
       <option value=".">TOPページ</option>
       <option value="todo">TODOリスト</option>
       <option value="attendance">勤怠リスト</option>
+      <option value="chat">チャット</option>
     </select>
   );
 };
